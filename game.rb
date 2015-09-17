@@ -27,8 +27,18 @@ class TicTacToe
     puts "Welcome to the Tic Tac Toe Game.\nBefore we begin, I need to ask a few questions to setup the game."
     puts "What is your marker? (I.e like 'X', but can be any single letter excluding integers.)"
     human_symbol = gets.chomp
+    while human_symbol =~ /\A\d+\z/ ? true : false
+       puts "Sorry, you need to make your marker not an integer."
+       puts "What is your marker? (I.e like 'X', but can be any single letter excluding integers.)"
+       human_symbol = gets.chomp
+     end
     puts "What is the computer's marker? (Make it different from your own.)"
     computer_symbol = gets.chomp
+    while computer_symbol =~ /\A\d+\z/ ? true : false
+       puts "Sorry, you need to make the computer's marker not an integer."
+       puts "What is the computer's marker? (Make it different from your own.)"
+       computer_symbol = gets.chomp
+     end
     while computer_symbol == human_symbol
       puts "Sorry, you need to make the computer's marker different from your own."
       puts "What is the computer's marker?"
@@ -73,13 +83,13 @@ class TicTacToe
     spot = nil
     until spot
       puts "Please choose an open spot you want to mark by typing in the number (0-8)."
-      spot = gets.chomp.to_i
-      if !(@board[spot] != @computer_marker && @board[spot] != @human_marker) || !(spot <= 8 && spot >= 0)
+      spot = gets.chomp
+      if (spot =~ /\A\d+\z/ ? false : true) || !(@board[spot.to_i] != @computer_marker && @board[spot.to_i] != @human_marker) || spot.to_i > 8 || spot.to_i < 0 
         puts "Sorry, that is not a valid location."
         spot = nil
       end
     end
-    return spot
+    return spot.to_i
   end
   
   def computer_turn

@@ -26,23 +26,22 @@ class TicTacToe
     #Initializes the critical values with console UI. Such as, the Human/Computer Markers and who is going first.
     puts "Welcome to the Tic Tac Toe Game.\nBefore we begin, I need to ask a few questions to setup the game."
     puts "What is your marker? (I.e like 'X', but can be any single letter excluding integers.)"
-    hum = gets.chomp
+    human_symbol = gets.chomp
     puts "What is the computer's marker? (Make it different from your own.)"
-    com = gets.chomp
-    while com == hum
+    computer_symbol = gets.chomp
+    while computer_symbol == human_symbol
       puts "Sorry, you need to make the computer's marker different from your own."
       puts "What is the computer's marker?"
-      com = gets.chomp
+      computer_symbol = gets.chomp
     end
     puts "Who is going first? (Type human for yourself, or computer for computer.)"
     first_player = gets.chomp.downcase
     while first_player != "human" && first_player != "computer"
-      puts first_player
       puts "Sorry, that was not valid. Please try again."
       puts "Who is going first? (Type human for yourself, or computer for computer.)"
       first_player = gets.chomp.downcase
     end
-    assign_values(hum,com,first_player)
+    assign_values(human_symbol,computer_symbol,first_player)
     puts "Thanks! That's it. Now you can play."
   end
   
@@ -56,12 +55,12 @@ class TicTacToe
     
   def display_board
     #Displays the game board as a string.
-    puts ""\
+    puts "\n"\
     "   |   #{@board[0]}   |   #{@board[1]}   |   #{@board[2]}   |   \n"\
     "---|-------|-------|-------|--- \n"\
     "   |   #{@board[3]}   |   #{@board[4]}   |   #{@board[5]}   |   \n"\
     "---|-------|-------|-------|---\n"\
-    "   |   #{@board[6]}   |   #{@board[7]}   |   #{@board[8]}   |   \n"
+    "   |   #{@board[6]}   |   #{@board[7]}   |   #{@board[8]}   |   \n\n"
   end
   
   def human_turn(spot)

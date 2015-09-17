@@ -1,7 +1,10 @@
 #Tic Tac Toe Game
 #Sarah Sunday
 
-class Game
+class TicTacToe
+  #Constants to identify which player has won
+  COMPUTER_PLAYER = "computer"
+  HUMAN_PLAYER = "human"
   
   def initialize
     #Default values of board, markers, who goes first, and who has won.
@@ -9,7 +12,7 @@ class Game
     @human_marker = ""
     @computer_marker = ""
     @player_turn = ""
-    @winner = 0
+    @winner = ""
   end
   
   def run_game
@@ -32,12 +35,12 @@ class Game
       com = gets.chomp
     end
     puts "Who is going first? (Type human for yourself, or computer for computer.)"
-    first_player = gets.chomp.downcase!
-    #1 will mean the Human player goes first, 2 the computer player.
+    first_player = gets.chomp.downcase
     while first_player != "human" && first_player != "computer"
+      puts first_player
       puts "Sorry, that was not valid. Please try again."
       puts "Who is going first? (Type human for yourself, or computer for computer.)"
-      first_player = gets.chomp.downcase!
+      first_player = gets.chomp.downcase
     end
     assign_values(hum,com,first_player)
     puts "Thanks! That's it. Now you can play."
@@ -81,7 +84,7 @@ class Game
   end
   
   def computer_turn
-    #Displays what spot has been seleceted.
+    #Calls function select what spot to mark and displays that spot.
     spot = get_best_move(@board)
     @board[spot] = @computer_marker
     puts "The Computer has selected spot #{spot}!"
@@ -128,9 +131,6 @@ class Game
     end
   end
   
-  
-    
-  
   def game_loop
     #Runs the game, alternating turns until the game has been won or tied.
     player_turn = @player_turn
@@ -149,9 +149,9 @@ class Game
     end
     if if_someone_has_won(@board)
       if player_turn.eql?("human")
-        @winner = 2
+        @winner = COMPUTER_PLAYER
       elsif player_turn.eql?("computer")
-        @winner = 1
+        @winner = HUMAN_PLAYER
       end
     end
   end
@@ -177,14 +177,14 @@ class Game
     #Displays the appropriate end-of-game messages.
     if check_if_tie(@board) && !(if_someone_has_won(@board))
       puts "TIE!"
-    elsif @winner == 1
+    elsif @winner.eql?("human")
       puts "You WON!"
-    elsif @winner == 2
+    elsif @winner.eql?("computer")
       puts "The computer has won!"
     end
     puts "GAME IS OVER. Thanks for playing!"
   end
 end
 
-game = Game.new
-game.run_game
+tictactoe = TicTacToe.new
+tictactoe.run_game

@@ -8,7 +8,7 @@ class Game
     @board = ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
     @human_marker = ""
     @computer_marker = ""
-    @first_player = 0
+    @player_turn = ""
     @winner = 0
   end
   
@@ -31,15 +31,15 @@ class Game
       puts "What is the computer's marker?"
       com = gets.chomp
     end
-    puts "Who is going first? (Type 1 for yourself, 2 for computer.)"
-    first_player = gets.chomp
+    puts "Who is going first? (Type human for yourself, or computer for computer.)"
+    first_player = gets.chomp.downcase!
     #1 will mean the Human player goes first, 2 the computer player.
-    while first_player != "1" && first_player != "2"
+    while first_player != "human" && first_player != "computer"
       puts "Sorry, that was not valid. Please try again."
-      puts "Who is going first? (Type 1 for yourself, 2 for computer.)"
-      first_player = gets.chomp
+      puts "Who is going first? (Type human for yourself, or computer for computer.)"
+      first_player = gets.chomp.downcase!
     end
-    assign_values(hum,com,first_player.to_i)
+    assign_values(hum,com,first_player)
     puts "Thanks! That's it. Now you can play."
   end
   
@@ -48,7 +48,7 @@ class Game
     #Directly assigns values for non-console UI. If so, then start_up has no need to be called in main game function.
     @human_marker = human
     @computer_marker = computer
-    @first_player = firstplayer
+    @player_turn = firstplayer
   end
     
   def display_board
@@ -104,13 +104,13 @@ class Game
       end
       available_spaces.each do |available_spot|
         board[available_spot.to_i] = @computer_marker
-        if game_is_over(board)
+        if if_someone_has_won(board)
           best_move = available_spot.to_i
           board[available_spot.to_i] = available_spot
           return best_move
         else
           board[available_spot.to_i] = @human_marker
-          if game_is_over(board)
+          if if_someone_has_won(board)
             best_move = available_spot.to_i
             board[available_spot.to_i] = available_spot
             return best_move
@@ -133,29 +133,30 @@ class Game
   
   def game_loop
     #Runs the game, alternating turns until the game has been won or tied.
-    counter = @first_player
+    player_turn = @player_turn
     display_board
-    until game_is_over(@board) || tie(@board)
-      if counter.even?
+    until if_someone_has_won(@board) || check_if_tie(@board)
+      if player_turn.eql?("computer")
         puts "COMPUTER'S TURN"
         computer_turn
+        player_turn = "human"
       else
         puts "YOUR TURN"
         human_turn(get_human_spot)
+        player_turn = "computer"
       end
       display_board
-      counter = counter.next
     end
-    if game_is_over(@board)
-      if counter.odd?
+    if if_someone_has_won(@board)
+      if player_turn.eql?("human")
         @winner = 2
-      elsif counter.even?
+      elsif player_turn.eql?("computer")
         @winner = 1
       end
     end
   end
 
-  def game_is_over(b)
+  def if_someone_has_won(b)
     #Detects if the game has been won by either player.
     [b[0], b[1], b[2]].uniq.length == 1 ||
     [b[3], b[4], b[5]].uniq.length == 1 ||
@@ -167,14 +168,14 @@ class Game
     [b[2], b[4], b[6]].uniq.length == 1
   end
   
-  def tie(b)
+  def check_if_tie(b)
     #Determines if a tie has occurred.
     b.all? { |spot| spot == @computer_marker|| spot == @human_marker }
   end
   
   def game_over_screen
     #Displays the appropriate end-of-game messages.
-    if tie(@board) && !(game_is_over(@board))
+    if check_if_tie(@board) && !(if_someone_has_won(@board))
       puts "TIE!"
     elsif @winner == 1
       puts "You WON!"

@@ -1,11 +1,10 @@
 #Tic Tac Toe Game
 #Sarah Sunday
-#Creates a text based version of TicTacToe
 
 class Game
   
   def initialize
-    #Default values.
+    #Default values of board, markers, who goes first, and who has won.
     @board = ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
     @human_marker = ""
     @computer_marker = ""
@@ -53,7 +52,7 @@ class Game
   end
     
   def display_board
-    #Displays the board, inserting the respective values into the string.
+    #Displays the game board as a string.
     puts ""\
     "   |   #{@board[0]}   |   #{@board[1]}   |   #{@board[2]}   |   \n"\
     "---|-------|-------|-------|--- \n"\
@@ -63,7 +62,7 @@ class Game
   end
   
   def human_turn(spot)
-    #Assigns the passed in spot to the human marker
+    #Assigns the passed in spot to the human marker.
     @board[spot] = @human_marker
   end
   
@@ -89,6 +88,7 @@ class Game
   end
 
   def get_best_move(board)
+    #Parameter is the game board as it currently is
     #Finds the best move for the Computer to make based on the current board.
     available_spaces = []
     best_move = nil
@@ -156,7 +156,7 @@ class Game
   end
 
   def game_is_over(b)
-    #Detects if the game has been won
+    #Detects if the game has been won by either player.
     [b[0], b[1], b[2]].uniq.length == 1 ||
     [b[3], b[4], b[5]].uniq.length == 1 ||
     [b[6], b[7], b[8]].uniq.length == 1 ||
@@ -168,8 +168,8 @@ class Game
   end
   
   def tie(b)
-    #Determines if a tie has been made.
-    b.all? { |s| s == @computer_marker|| s == @human_marker }
+    #Determines if a tie has occurred.
+    b.all? { |spot| spot == @computer_marker|| spot == @human_marker }
   end
   
   def game_over_screen

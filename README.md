@@ -1,6 +1,13 @@
 # tictactoeRuby
 Tic Tac Toe Game in Ruby
 
+Version 2.0
+
+Changes from 1.0:
+
+
+Version 1.1
+
 Generally played through console, but has some capabilities to do a non-console based UI.
 
 Changes from original:

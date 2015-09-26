@@ -2,7 +2,7 @@
 #Sarah Sunday
 
 class TicTacToe
-  #Constants to identify which player has won
+  #Constants to identify which player has won.
   COMPUTER_PLAYER = "computer"
   HUMAN_PLAYER = "human"
   
@@ -93,7 +93,7 @@ class TicTacToe
   end
   
   def computer_turn
-    #Calls function select what spot to mark and displays that spot.
+    #Calls function to select what spot to mark and displays that spot.
     spot = get_best_move(@board)
     @board[spot] = @computer_marker
     puts "The Computer has selected spot #{spot}!"

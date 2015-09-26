@@ -3,13 +3,23 @@
 
 require_relative './TicTacToeBoard'
 
-class TicTacToeGameManager
+class TicTacToeManager
   
   def initialize(first_player, human_marker, computer_marker)
     @player_turn = first_player
     @computer_marker = computer_marker
     @human_marker = human_marker
     @board = TicTacToeBoard.new
+  end
+  
+  def game_turn(spot, player_turn)
+    if player_turn.eql?("computer")
+      @board.set_board_location(spot, @computer_marker)
+      @player_turn = "human"
+    else
+      @board.set_board_location(spot, @human_marker)
+      @player_turn = "computer"
+    end
   end
    
   def test_if_location_valid_to_mark(spot)
@@ -24,14 +34,16 @@ class TicTacToeGameManager
     @board.display_board
   end
   
-  def game_turn(spot, player_turn)
-    if player_turn.eql?("computer")
-      @board.set_board_location(spot, @computer_marker)
-      @player_turn = "human"
-    else
-      @board.set_board_location(spot, @human_marker)
-      @player_turn = "computer"
-    end
+  def get_player_turn
+    return @player_turn
+  end
+  
+  def check_if_game_won
+    return @board.check_if_someone_has_won
+  end
+  
+  def check_if_game_tie
+    return @board.check_if_tie(@computer_marker,@human_marker)
   end
   
   def get_computer_best_move
@@ -72,15 +84,4 @@ class TicTacToeGameManager
     end
   end
   
-  def get_player_turn
-    return @player_turn
-  end
-  
-  def check_if_game_won
-    return @board.check_if_someone_has_won
-  end
-  
-  def check_if_game_tie
-    return @board.check_if_tie(@computer_marker,@human_marker)
-  end
 end

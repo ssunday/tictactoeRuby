@@ -1,3 +1,7 @@
+#Tic Tac Toe Console Input Output
+#Sarah Sunday
+#Creates functions to display output and get input via console
+
 class TicTacToeConsoleInputOutput
   
   def start_up

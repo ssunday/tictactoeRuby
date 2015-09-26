@@ -1,3 +1,6 @@
+#Tic Tac Toe Game Runner
+#Sarah Sunday
+
 require_relative './TicTacToeManager'
 require_relative './TicTacToeConsoleInputOutput'
 
@@ -5,9 +8,9 @@ class TicTacToeGameRunner
   def play_game
     play = true
     console = TicTacToeConsoleInputOutput.new
+    start_up_values = console.start_up
     while play
-      start_up_values = console.start_up
-      game = TicTacToeGameManager.new(start_up_values[0], start_up_values[1], start_up_values[2])
+      game = TicTacToeManager.new(start_up_values[0], start_up_values[1], start_up_values[2])
       game.display_game_board
       until game.check_if_game_won || game.check_if_game_tie
         console.report_whose_turn_it_is(game.get_player_turn)

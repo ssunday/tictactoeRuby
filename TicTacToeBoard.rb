@@ -1,3 +1,7 @@
+#TicTacToe Board
+#Sarah Sunday
+#Creates a class which represents the tic tac toe board. Has functions to alter it and test for its current state.
+
 class TicTacToeBoard
   
   def initialize

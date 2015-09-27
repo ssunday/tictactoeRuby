@@ -60,13 +60,13 @@ class TicTacToeManager
       end
     end
     available_spaces.each do |available_spot|
-      board_new.set_board_location(available_spot.to_i, @computer_marker)
+      board_new.set_board_location(available_spot.to_i, @human_marker)
       if board_new.check_if_someone_has_won
         best_move = available_spot.to_i
         board_new.set_board_location(available_spot.to_i, available_spot)
         return best_move
       else
-        board_new.set_board_location(available_spot.to_i, @human_marker)
+        board_new.set_board_location(available_spot.to_i, @computer_marker)
         if board_new.check_if_someone_has_won
           best_move = available_spot.to_i
           board_new.set_board_location(available_spot.to_i, available_spot)
@@ -83,5 +83,4 @@ class TicTacToeManager
       return available_spaces[n].to_i
     end
   end
-  
 end

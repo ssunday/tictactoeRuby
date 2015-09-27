@@ -35,11 +35,11 @@ class TicTacToeConsoleInputOutput
   end
   
   def ask_who_is_going_first(human_marker, computer_marker)
-    puts "Who is going first? (Type human marker for yourself or computer marker for computer.)"
+    puts "Who is going first? (Type your marker for yourself or the computer marker for computer.)"
     first_player = gets.chomp
     while !(first_player.eql?(human_marker)) && !(first_player.eql?(computer_marker))
       puts "Sorry, that was not valid. Please try again."
-      puts "Who is going first? (Type human marker for yourself, or computer marker for computer.)"
+      puts "Who is going first? (Type your marker for yourself or the computer marker for computer.)"
       first_player = gets.chomp
     end
     return first_player

@@ -3,9 +3,9 @@ Tic Tac Toe Game in Ruby
 
 Version 2.0
 
-The Rules class is for general game rules and board interaction. It has no interaction with I/O, that is handled through the Runner Class
+The Rules class is for general game rules and board interaction. It has no interaction with I/O; that is handled through the Runner Class
 
-Console I/O class handles all gets and puts and displays (excluding board, which is in the Board class)
+Console I/O class handles all gets and puts and displays (excluding board, which is in the Board class.)
 
 The Player class holds the player's marker identification.
 

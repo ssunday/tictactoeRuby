@@ -1,24 +1,26 @@
-#Tic Tac Toe Manager
+#Tic Tac Toe Rules
 #Sarah Sunday
+#Manages the rules and gameplay of tic tac toe
 
 require_relative './TicTacToeBoard'
+require_relative './TicTacToePlayer'
 
-class TicTacToeManager
+class TicTacToeRules
   
-  def initialize(first_player, human_marker, computer_marker)
+  def initialize(first_player, human, computer)
     @player_turn = first_player
-    @computer_marker = computer_marker
-    @human_marker = human_marker
+    @computer_marker = computer.get_marker
+    @human_marker = human.get_marker
     @board = TicTacToeBoard.new
   end
   
-  def game_turn(spot, player_turn)
-    if player_turn.eql?("computer")
+  def game_turn(spot)
+    if @player_turn.eql?(@computer_marker)
       @board.set_board_location(spot, @computer_marker)
-      @player_turn = "human"
+      @player_turn = @human_marker
     else
       @board.set_board_location(spot, @human_marker)
-      @player_turn = "computer"
+      @player_turn = @computer_marker
     end
   end
    
@@ -28,6 +30,14 @@ class TicTacToeManager
     else
       return false
     end
+  end
+  
+  def get_computer_marker
+    return @computer_marker
+  end
+  
+  def get_human_marker
+    return @human_marker
   end
   
   def display_game_board
@@ -42,8 +52,8 @@ class TicTacToeManager
     return @board.check_if_someone_has_won
   end
   
-  def check_if_game_tie
-    return @board.check_if_tie(@computer_marker,@human_marker)
+  def check_if_game_tied
+    return @board.check_if_tie(@computer_marker, @human_marker)
   end
   
   def get_computer_best_move

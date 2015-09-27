@@ -4,20 +4,19 @@
 
 class TicTacToeConsoleInputOutput
   
-  def start_up
+  def start_up_message
     puts "Welcome to the Tic Tac Toe Game.\nBefore we begin, I need to ask a few questions to setup the game."
-    human_marker = ask_for_human_marker
-    computer_marker = ask_for_computer_marker(human_marker)
-    first_player = get_who_is_going_first
+  end
+  
+  def end_start_up_message
     puts "Thanks! That's it. Now you can play."
-    return [first_player, human_marker, computer_marker]
   end
   
   def ask_for_human_marker
     puts "What is your marker? (I.e like 'X', but can be any single letter excluding integers.)"
     human_marker = gets.chomp
-    while human_marker =~ /\A\d+\z/ ? true : false
-       puts "Sorry, you need to make your marker not an integer."
+    while human_marker =~ /\A\d+\z/ ? true : false || human_marker.length != 1
+       puts "Sorry, that marker was invalid."
        puts "What is your marker? (I.e like 'X', but can be any single letter excluding integers.)"
        human_marker = gets.chomp
      end
@@ -27,26 +26,26 @@ class TicTacToeConsoleInputOutput
   def ask_for_computer_marker(human_marker)
     puts "What is the computer's marker? (Make it different from your own.)"
     computer_marker = gets.chomp
-    while computer_marker =~ /\A\d+\z/ ? true : false || computer_marker == human_marker
-       puts "Sorry, you need to make the computer's marker not an integer and not the same as the human_marker."
-       puts "What is the computer's marker? (Make it different from your own.)"
+    while computer_marker =~ /\A\d+\z/ ? true : false || computer_marker == human_marker || computer_marker.length != 1
+       puts "Sorry, that marker was invalid."
+       puts "What is the computer's marker? (Make it different from your own, a single letter, and not a number.)"
        computer_marker = gets.chomp
     end
     return computer_marker
   end
   
-  def get_who_is_going_first
-    puts "Who is going first? (Type human for yourself, or computer for computer.)"
-    first_player = gets.chomp.downcase
-    while first_player != "human" && first_player != "computer"
+  def ask_who_is_going_first(human_marker, computer_marker)
+    puts "Who is going first? (Type human marker for yourself or computer marker for computer.)"
+    first_player = gets.chomp
+    while !(first_player.eql?(human_marker)) && !(first_player.eql?(computer_marker))
       puts "Sorry, that was not valid. Please try again."
-      puts "Who is going first? (Type human for yourself, or computer for computer.)"
-      first_player = gets.chomp.downcase
+      puts "Who is going first? (Type human marker for yourself, or computer marker for computer.)"
+      first_player = gets.chomp
     end
     return first_player
   end
-  
-  def get_human_location_to_mark
+
+  def ask_player_for_location_to_mark
     spot = nil
     until spot
       puts "Please choose an open spot you want to mark by typing in the number (0-8)."
@@ -59,12 +58,20 @@ class TicTacToeConsoleInputOutput
     return spot.to_i
   end
   
-  def report_whose_turn_it_is(which_player)
-    puts "It is the #{which_player} player's turn."
+  def report_it_is_humans_turn
+    puts "It is your turn."
   end
   
-  def report_location_marked(location, player)
-    puts "The #{player} has selected spot #{location}!"
+  def report_it_is_computers_turn
+    puts "It is the computer player's turn."
+  end
+  
+  def report_human_location_marked(location)
+    puts "You have selected spot #{location}!"
+  end
+  
+  def report_computer_location_marked(location)
+    puts "The computer has selected spot #{location}!"
   end
   
   def game_over_screen_player_won
@@ -77,7 +84,7 @@ class TicTacToeConsoleInputOutput
     puts "GAME IS OVER. Thanks for playing!"
   end
   
-  def game_over_screen_tie
+  def game_over_screen_tied
     puts "TIE!"
     puts "GAME IS OVER. Thanks for playing!"
   end
@@ -95,4 +102,5 @@ class TicTacToeConsoleInputOutput
       return false
     end
   end
+  
 end

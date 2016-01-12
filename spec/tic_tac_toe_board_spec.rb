@@ -1,4 +1,4 @@
-require 'TicTacToeBoard.rb'
+require 'tic_tac_toe_board'
 
 describe TicTacToeBoard do
 

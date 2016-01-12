@@ -1,4 +1,4 @@
-require 'TicTacToePlayer.rb'
+require 'tic_tac_toe_player'
 
 describe TicTacToePlayer do
 

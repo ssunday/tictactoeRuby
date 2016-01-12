@@ -1,8 +1,8 @@
-require 'TicTacToeRules.rb'
+require 'tic_tac_toe_rules'
 
 describe TicTacToeRules do
 
-  def simulate_win_by_human()
+  def simulate_win_by_human
     @rules.mark_board_location(0,"X")
     @rules.mark_board_location(1,"X")
     @rules.mark_board_location(2,"X")
@@ -15,7 +15,7 @@ describe TicTacToeRules do
     @rules.mark_board_location(2,"O")
   end
 
-  def simulate_tie()
+  def simulate_tie
     @rules.mark_board_location(0,"X")
     @rules.mark_board_location(1,"O")
     @rules.mark_board_location(2,"O")
@@ -35,11 +35,11 @@ describe TicTacToeRules do
   end
 
   it "assigns computer marker" do
-    expect(@rules.get_computer_marker()).to eq "O"
+    expect(@rules.get_computer_marker).to eq "O"
   end
 
   it "assigns human marker" do
-    expect(@rules.get_human_marker()).to eq "X"
+    expect(@rules.get_human_marker).to eq "X"
   end
 
   it "determines if spot is invalid" do
@@ -64,23 +64,25 @@ describe TicTacToeRules do
   it "computers best move on initial board is the middle spot" do
     expect(@rules.get_computer_best_move).to eq 4
   end
-  
+
   context "game over" do
     context "if game has been won by" do
+
       it "player" do
         simulate_win_by_human
-        expect(@rules.human_won?()).to eq true
+        expect(@rules.human_won?).to eq true
       end
 
       it "computer" do
         simulate_win_by_computer
-        expect(@rules.computer_won?()).to eq true
+        expect(@rules.computer_won?).to eq true
       end
     end
 
     it "if game is tied" do
       simulate_tie
-      expect(@rules.check_if_game_tied()).to eq true
+      expect(@rules.tied?).to eq true
+      expect(@rules).to be_tied
     end
   end
 

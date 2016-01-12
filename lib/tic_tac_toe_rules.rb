@@ -2,8 +2,8 @@
 #Sarah Sunday
 #Manages the rules and gameplay of tic tac toe
 
-require_relative './TicTacToeBoard'
-require_relative './TicTacToePlayer'
+require 'tic_tac_toe_board'
+require 'tic_tac_toe_player'
 
 class TicTacToeRules
 
@@ -63,11 +63,11 @@ class TicTacToeRules
     @player_turn.eql?(@human_marker) && @board.check_if_someone_has_won
   end
 
-  def check_if_game_won
+  def game_won?
     @board.check_if_someone_has_won
   end
 
-  def check_if_game_tied
+  def tied?
     @board.check_if_tie(@computer_marker, @human_marker)
   end
 
@@ -118,22 +118,66 @@ class TicTacToeRules
     end
   end
 
-  def computer_minimax
-    highest_score = 9e99
-    best_move = nil
-    available_spaces = []
-    available_spaces = get_possible_moves(@board)
-    available_spaces.each do |available_spot|
-
+  def score
+    if computer_won?
+      return 1
+    elsif human_won?
+      return -1
+    else
+      return 0
     end
   end
 
-  def max
+  def computer_minimax
+    if game_won? || tied?
+      score
+    end
     best_score = -1
     available_spaces = []
     available_spaces = get_possible_moves(@board)
     available_spaces.each do |available_spot|
+      board_new = @board.clone
+      board_new.set_board_location(move, @computer_marker)
+      score = minimax(board_new)
+      if score > best_score
+        best_score = score
+      end
+    end
+    return best_score
+  end
 
+  def max
+    if game_won? || tied?
+      #score(game) #IMPLEMENT
+    end
+    best_score = -1
+    available_spaces = []
+    available_spaces = get_possible_moves(@board)
+    available_spaces.each do |move|
+      board_new = @board.clone
+      board_new.set_board_location(move, @computer_marker)
+      score = mini(board_new)
+      if score > best_score
+        best_score = score
+      end
+    end
+    best_score
+  end
+
+  def mini
+    if game_won? || tied?
+      #score(game) #IMPLEMENT
+    end
+    worst_score = 1
+    available_spaces = []
+    available_spaces = get_possible_moves(@board)
+    available_spaces.each do |move|
+      board_new = @board.clone
+      board_new.set_board_location(move, @computer_marker)
+      score = max(board_new)
+      if score > best_score
+        worst_score = score
+      end
     end
   end
 

@@ -1,8 +1,8 @@
 #Tic Tac Toe Game
 #Mock class to test methods
 
-require_relative './TicTacToeRules'
-require_relative './TicTacToePlayer'
+require 'tic_tac_toe_rules'
+require 'tic_tac_toe_player'
 
 class TicTacToeGame
   attr_reader :game
@@ -29,7 +29,7 @@ class TicTacToeGame
   end
 
   def gameOver?()
-    game.check_if_game_won || game.check_if_game_tied
+    game.game_won? || game.tied?
   end
 
 end

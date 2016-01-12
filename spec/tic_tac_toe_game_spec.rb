@@ -1,4 +1,4 @@
-require 'TicTacToeGame.rb'
+require 'tic_tac_toe_game'
 
 describe TicTacToeGame do
 

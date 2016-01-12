@@ -19,7 +19,7 @@ class TicTacToeRules
     switch_turn()
   end
 
-  def switch_turn()
+  def switch_turn
     if @player_turn.eql?(@computer_marker)
       @player_turn = @human_marker
     else
@@ -123,7 +123,12 @@ class TicTacToeRules
     available_spaces.each do |move|
       current_board = @board.clone
       current_board.set_board_location(move.to_i, @player_turn)
-      score = minimax(current_board)
+      if @player_turn.eql?(@computer_marker)
+        score = minmax(current_board, @human_marker)
+      else
+        score = minmax(current_board, @computer_marker)
+      end
+      score = minmax(current_board, @player_turn)
       if score >= best_score
         best_score = score
         best_move = move.to_i
@@ -139,70 +144,57 @@ class TicTacToeRules
         possible_spaces << spot
       end
     end
+    possible_spaces
   end
 
   def score
     if computer_won?
-      return 1
+      if @player_turn.eql?(@computer_marker)
+        return 1
+      else
+        return -1
+      end
     elsif human_won?
-      return -1
+      if @player_turn.eql?(@computer_marker)
+        return -1
+      else
+        return 1
+      end
     else
       return 0
     end
   end
 
-  def minimax(board)
+  def minmax(board, current_player)
     if game_over?
       return score
     end
+
+    multiplier = 1
+    if current_player != @player_turn
+      multiplier = -1
+    end
+
     best_score = -1
     available_spaces = []
     available_spaces = get_possible_moves(board)
+
     available_spaces.each do |move|
       board_new = board.clone
-      board_new.set_board_location(move.to_i, @player_turn)
-      score = minimax(board_new)
-      if score > best_score
+      board_new.set_board_location(move.to_i, current_player)
+
+      if current_player.eql?(@computer_marker)
+        current_player = @human_marker
+      else
+        current_player = @computer_marker
+      end
+
+      score = multiplier*minmax(board_new,current_player)
+      if score >= best_score
         best_score = score
       end
     end
-    best_score
-  end
-
-  def max(board)
-    if game_over?
-      return score
-    end
-    best_score = -1
-    available_spaces = []
-    available_spaces = get_possible_moves(board)
-    available_spaces.each do |move|
-      board_new = board.clone
-      board_new.set_board_location(move.to_i, @player_turn)
-      score = mini(board_new)
-      if score > best_score
-        best_score = score
-      end
-    end
-    best_score
-  end
-
-  def mini(board)
-    if game_over?
-      return score
-    end
-    worst_score = 1
-    available_spaces = []
-    available_spaces = get_possible_moves(board)
-    available_spaces.each do |move|
-      board_new = board.clone
-      board_new.set_board_location(move.to_i, @player_turn)
-      score = max(board_new)
-      if score < worst_score
-        worst_score = score
-      end
-    end
-    worst_score
+    best_score*multiplier
   end
 
 end

@@ -61,7 +61,7 @@ describe TicTacToeRules do
     expect(@rules.location_valid_to_mark?(0)).to eq false
   end
 
-  it "computers best move on initial board is the middle spot" do
+  it "best move on initial board is the middle spot" do
     expect(@rules.computer_best_move).to eq 4
   end
 

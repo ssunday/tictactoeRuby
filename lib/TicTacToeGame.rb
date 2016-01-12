@@ -28,31 +28,8 @@ class TicTacToeGame
     #game.display_game_board
   end
 
-  def mark_board(spot,marker)
-    game.mark_board_location(spot,marker)
-  end
-
-  def switch_turn()
-    game.switch_turn()
-  end
-
   def gameOver?()
-    someoneWon? || tied?
+    game.check_if_game_won || game.check_if_game_tied
   end
 
-  def someoneWon?()
-    game.check_if_game_won
-  end
-
-  def tied?()
-    game.check_if_game_tied
-  end
-
-  def playerWon?()
-    game.get_player_turn.eql?(game.get_computer_marker) && game.check_if_game_won
-  end
-
-  def computerWon?()
-    game.get_player_turn.eql?(game.get_human_marker) && game.check_if_game_won
-  end
 end

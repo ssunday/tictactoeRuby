@@ -55,6 +55,14 @@ class TicTacToeRules
     @player_turn
   end
 
+  def human_won?
+    @player_turn.eql?(@computer_marker) && @board.check_if_someone_has_won
+  end
+
+  def computer_won?
+    @player_turn.eql?(@human_marker) && @board.check_if_someone_has_won
+  end
+
   def check_if_game_won
     @board.check_if_someone_has_won
   end
@@ -100,4 +108,33 @@ class TicTacToeRules
       return available_spaces[n].to_i
     end
   end
+
+  def get_possible_moves(board)
+    possible_spaces = []
+    board.get_current_board.each do |spot|
+      if spot != @computer_marker && spot != @human_marker
+        possible_spaces << spot_content
+      end
+    end
+  end
+
+  def computer_minimax
+    highest_score = 9e99
+    best_move = nil
+    available_spaces = []
+    available_spaces = get_possible_moves(@board)
+    available_spaces.each do |available_spot|
+
+    end
+  end
+
+  def max
+    best_score = -1
+    available_spaces = []
+    available_spaces = get_possible_moves(@board)
+    available_spaces.each do |available_spot|
+
+    end
+  end
+
 end

@@ -47,16 +47,16 @@ describe TicTacToeRules do
     expect(@rules.location_valid_to_mark?(0)).to eq false
   end
 
-  it "determines a valid location" do
+  it "#location_valid_to_mark?" do
     expect(@rules.location_valid_to_mark?(0)).to eq true
   end
 
-  it "switches the 'player turn'" do
+  it "#switch_turn" do
     @rules.switch_turn
     expect(@rules.get_player_turn).to eq "O"
   end
 
-  it "runs a game turn" do
+  it "#game_turn" do
     @rules.game_turn(0)
     expect(@rules.location_valid_to_mark?(0)).to eq false
   end
@@ -66,24 +66,59 @@ describe TicTacToeRules do
   end
 
   context "game over" do
-    context "if game has been won by" do
 
-      it "player" do
+    context "if human won" do
+
+      before do
         simulate_win_by_human
+      end
+
+      it "#human_won? is true" do
         expect(@rules.human_won?).to eq true
       end
 
-      it "computer" do
-        simulate_win_by_computer
-        expect(@rules.computer_won?).to eq true
+      it "#computer_won? is false" do
+        expect(@rules.computer_won?).to eq false
       end
+
     end
 
-    it "if game is tied" do
-      simulate_tie
-      expect(@rules.tied?).to eq true
-      expect(@rules).to be_tied
+    context "if computer won" do
+
+      before do
+        simulate_win_by_computer
+      end
+
+      it "#computer_won? is true" do
+        expect(@rules.computer_won?).to eq true
+      end
+
+      it "#human_won? is false" do
+        expect(@rules.human_won?).to eq false
+      end
+
     end
+
+    context "if game is tied" do
+      before do
+        simulate_tie
+      end
+
+      it "#tied? is true" do
+        expect(@rules.tied?).to eq true
+        #expect(@rules).to be_tied
+      end
+
+      it "#human_won? is false" do
+        expect(@rules.human_won?).to eq false
+      end
+
+      it "#computer_won? is false" do
+        expect(@rules.computer_won?).to eq false
+      end
+
+    end
+
   end
 
 end

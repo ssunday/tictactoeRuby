@@ -16,7 +16,7 @@ class TicTacToeGame
   end
 
   def play_game
-    until gameOver?
+    until game_over?
       if game.get_player_turn.eql?(game.get_human_marker)
         #In this case this is the 'human' player
         spot = game.get_computer_best_move
@@ -28,8 +28,8 @@ class TicTacToeGame
     #game.display_game_board
   end
 
-  def gameOver?()
-    game.game_won? || game.tied?
+  def game_over?()
+    game.game_over?
   end
 
 end

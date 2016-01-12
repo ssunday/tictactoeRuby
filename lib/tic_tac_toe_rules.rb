@@ -32,7 +32,7 @@ class TicTacToeRules
   end
 
   def location_valid_to_mark?(spot)
-    if @board.get_spot_value(spot) != @computer_marker && @board.get_spot_value(spot) != @human_marker
+    if @board.spot_value(spot) != @computer_marker && @board.spot_value(spot) != @human_marker
       return true
     else
       return false
@@ -56,43 +56,47 @@ class TicTacToeRules
   end
 
   def human_won?
-    @player_turn.eql?(@computer_marker) && @board.check_if_someone_has_won
+    @player_turn.eql?(@computer_marker) && @board.won?
   end
 
   def computer_won?
-    @player_turn.eql?(@human_marker) && @board.check_if_someone_has_won
+    @player_turn.eql?(@human_marker) && @board.won?
   end
 
   def game_won?
-    @board.check_if_someone_has_won
+    @board.won?
+  end
+
+  def game_over?
+    game_won? || tied?
   end
 
   def tied?
-    @board.check_if_tie(@computer_marker, @human_marker)
+    @board.tie?(@computer_marker, @human_marker)
   end
 
   def get_computer_best_move
     available_spaces = []
     best_move = nil
     board_new = @board.clone
-    if board_new.get_spot_value(4) == "4"
+    if board_new.spot_value(4) == "4"
       best_move = 4
       return best_move
     end
-    board_new.get_current_board.each do |spot_content|
+    board_new.current_board.each do |spot_content|
       if spot_content != @computer_marker && spot_content != @human_marker
         available_spaces << spot_content
       end
     end
     available_spaces.each do |available_spot|
       board_new.set_board_location(available_spot.to_i, @human_marker)
-      if board_new.check_if_someone_has_won
+      if board_new.won?
         best_move = available_spot.to_i
         board_new.set_board_location(available_spot.to_i, available_spot)
         return best_move
       else
         board_new.set_board_location(available_spot.to_i, @computer_marker)
-        if board_new.check_if_someone_has_won
+        if board_new.won?
           best_move = available_spot.to_i
           board_new.set_board_location(available_spot.to_i, available_spot)
           return best_move
@@ -101,19 +105,38 @@ class TicTacToeRules
         end
       end
     end
+
     if best_move
       return best_move
     else
       n = rand(0..available_spaces.count)
       return available_spaces[n].to_i
     end
+
+  end
+
+  def computer_best_move
+    best_move = nil
+    best_score = -1
+    available_spaces = []
+    available_spaces = get_possible_moves(@board)
+    available_spaces.each do |move|
+      current_board = @board.clone
+      current_board.set_board_location(move.to_i, @computer_marker)
+      score = minimax(current_board)
+      if score >= best_score
+        best_score = score
+        best_move = move.to_i
+      end
+    end
+    best_move
   end
 
   def get_possible_moves(board)
     possible_spaces = []
-    board.get_current_board.each do |spot|
+    board.current_board.each do |spot|
       if spot != @computer_marker && spot != @human_marker
-        possible_spaces << spot_content
+        possible_spaces << spot
       end
     end
   end
@@ -128,34 +151,34 @@ class TicTacToeRules
     end
   end
 
-  def computer_minimax
+  def minimax(board)
     if game_won? || tied?
-      score
+      return score
     end
     best_score = -1
     available_spaces = []
-    available_spaces = get_possible_moves(@board)
-    available_spaces.each do |available_spot|
-      board_new = @board.clone
-      board_new.set_board_location(move, @computer_marker)
+    available_spaces = get_possible_moves(board)
+    available_spaces.each do |move|
+      board_new = board.clone
+      board_new.set_board_location(move.to_i, @computer_marker)
       score = minimax(board_new)
       if score > best_score
         best_score = score
       end
     end
-    return best_score
+    best_score
   end
 
-  def max
+  def max(board)
     if game_won? || tied?
-      #score(game) #IMPLEMENT
+      return score
     end
     best_score = -1
     available_spaces = []
-    available_spaces = get_possible_moves(@board)
+    available_spaces = get_possible_moves(board)
     available_spaces.each do |move|
-      board_new = @board.clone
-      board_new.set_board_location(move, @computer_marker)
+      board_new = board.clone
+      board_new.set_board_location(move.to_i, @computer_marker)
       score = mini(board_new)
       if score > best_score
         best_score = score
@@ -164,16 +187,16 @@ class TicTacToeRules
     best_score
   end
 
-  def mini
+  def mini(board)
     if game_won? || tied?
-      #score(game) #IMPLEMENT
+      return score
     end
     worst_score = 1
     available_spaces = []
-    available_spaces = get_possible_moves(@board)
+    available_spaces = get_possible_moves(board)
     available_spaces.each do |move|
-      board_new = @board.clone
-      board_new.set_board_location(move, @computer_marker)
+      board_new = board.clone
+      board_new.set_board_location(move.to_i, @computer_marker)
       score = max(board_new)
       if score > best_score
         worst_score = score

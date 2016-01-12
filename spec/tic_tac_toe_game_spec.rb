@@ -6,13 +6,20 @@ describe TicTacToeGame do
     @tictactoe = TicTacToeGame.new()
   end
 
-  it "at start up says the game is not over" do
-    expect(@tictactoe.gameOver?()).to eq false
+  context "game has started up" do
+
+    it "#game_over is false" do
+      expect(@tictactoe.game_over?()).to eq false
+    end
+
   end
 
-  it "returns true for when game is over" do
-    @tictactoe.play_game
-    expect(@tictactoe.gameOver?()).to eq true
+  context "game is over" do
+    it "#game_over is true" do
+      @tictactoe.play_game
+      expect(@tictactoe.game_over?()).to eq true
+    end
   end
+
 
 end

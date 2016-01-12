@@ -21,15 +21,15 @@ class TicTacToeBoard
     "   |   #{@board[6]}   |   #{@board[7]}   |   #{@board[8]}   |   \n\n"
   end
 
-  def get_spot_value(spot)
+  def spot_value(spot)
     @board[spot]
   end
 
-  def get_current_board
+  def current_board
     @board
   end
 
-  def check_if_someone_has_won
+  def won?
     [@board[0], @board[1], @board[2]].uniq.length == 1 ||
     [@board[3], @board[4], @board[5]].uniq.length == 1 ||
     [@board[6], @board[7], @board[8]].uniq.length == 1 ||
@@ -40,7 +40,7 @@ class TicTacToeBoard
     [@board[2], @board[4], @board[6]].uniq.length == 1
   end
 
-  def check_if_tie(computer_marker, human_marker)
+  def tie?(computer_marker, human_marker)
     @board.all? { |spot| spot == computer_marker || spot == human_marker }
   end
 

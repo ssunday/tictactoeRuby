@@ -3,15 +3,10 @@ require 'tic_tac_toe_player'
 describe TicTacToePlayer do
 
   before do
-    @human_marker = TicTacToePlayer.new("H")
-    @computer_marker = TicTacToePlayer.new("C")
+    @general_player = TicTacToePlayer.new("H")
   end
 
-  it "correctly assigns computer marker" do
-    expect(@computer_marker.get_marker()).to eq "C"
-  end
-
-  it "correctly assigns human marker" do
-    expect(@human_marker.get_marker()).to eq "H"
+  it "assigns marker" do
+    expect(@general_player.get_marker()).to eq "H"
   end
 end

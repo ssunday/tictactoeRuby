@@ -19,9 +19,9 @@ class TicTacToeGame
     until game_over?
       if game.get_player_turn.eql?(game.get_human_marker)
         #In this case this is the 'human' player
-        spot = game.get_computer_best_move
+        spot = game.computer_best_move
       else
-        spot = game.get_computer_best_move
+        spot = game.computer_best_move
       end
       game.game_turn(spot)
     end

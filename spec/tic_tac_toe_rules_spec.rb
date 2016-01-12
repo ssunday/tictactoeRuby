@@ -62,7 +62,7 @@ describe TicTacToeRules do
   end
 
   it "computers best move on initial board is the middle spot" do
-    expect(@rules.get_computer_best_move).to eq 4
+    expect(@rules.computer_best_move).to eq 4
   end
 
   context "game over" do

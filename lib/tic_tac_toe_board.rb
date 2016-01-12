@@ -41,6 +41,7 @@ class TicTacToeBoard
   end
 
   def tie?(computer_marker, human_marker)
+    
     @board.all? { |spot| spot == computer_marker || spot == human_marker }
   end
 

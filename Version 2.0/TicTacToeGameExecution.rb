@@ -2,12 +2,14 @@
 #Sarah Sunday
 #Integrates the Rules and I/O to run the game of tic tac toe
 
+#correctly does not work as have modified other files
+
 require_relative './TicTacToeRules'
 require_relative './TicTacToeConsoleInputOutput'
 require_relative './TicTacToePlayer'
 
 class TicTacToeGameExecution
-  
+
   def play_game
     player_wants_to_play = true
     console_interface = TicTacToeConsoleInputOutput.new
@@ -49,7 +51,7 @@ class TicTacToeGameExecution
       player_wants_to_play = console_interface.restart
     end
   end
-  
+
 end
 
 game = TicTacToeGameExecution.new

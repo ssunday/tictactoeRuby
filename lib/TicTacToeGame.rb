@@ -29,7 +29,7 @@ class TicTacToeGame
   end
 
   def markBoard(spot,marker)
-    game.markBoardLocation(spot,marker)
+    game.mark_board_location(spot,marker)
   end
 
   def switch_turn()

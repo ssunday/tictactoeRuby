@@ -27,12 +27,12 @@ class TicTacToeRules
     end
   end
 
-  def markBoardLocation(spot, marker)
+  def mark_board_location(spot, marker)
     @board.set_board_location(spot, marker)
   end
 
-  def test_if_location_valid_to_mark(spot)
-    if !(@board.get_spot_value(spot) != @computer_marker && @board.get_spot_value(spot) != @human_marker)
+  def location_valid_to_mark?(spot)
+    if @board.get_spot_value(spot) != @computer_marker && @board.get_spot_value(spot) != @human_marker
       return true
     else
       return false
@@ -40,11 +40,11 @@ class TicTacToeRules
   end
 
   def get_computer_marker
-    return @computer_marker
+    @computer_marker
   end
 
   def get_human_marker
-    return @human_marker
+    @human_marker
   end
 
   def display_game_board
@@ -52,15 +52,15 @@ class TicTacToeRules
   end
 
   def get_player_turn
-    return @player_turn
+    @player_turn
   end
 
   def check_if_game_won
-    return @board.check_if_someone_has_won
+    @board.check_if_someone_has_won
   end
 
   def check_if_game_tied
-    return @board.check_if_tie(@computer_marker, @human_marker)
+    @board.check_if_tie(@computer_marker, @human_marker)
   end
 
   def get_computer_best_move

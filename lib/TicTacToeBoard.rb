@@ -22,11 +22,11 @@ class TicTacToeBoard
   end
 
   def get_spot_value(spot)
-    return @board[spot]
+    @board[spot]
   end
 
   def get_current_board
-    return @board
+    @board
   end
 
   def check_if_someone_has_won

@@ -28,7 +28,7 @@ class TicTacToeGame
     #game.display_game_board
   end
 
-  def markBoard(spot,marker)
+  def mark_board(spot,marker)
     game.mark_board_location(spot,marker)
   end
 

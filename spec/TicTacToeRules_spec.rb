@@ -37,8 +37,8 @@ describe TicTacToeRules do
     #expect(@rules.get_player_turn).to eq "C"
   end
 
-  it "computers best move on init board is the middle spot" do
+  it "computers best move on initial board is the middle spot" do
     expect(@rules.get_computer_best_move).to eq 4
   end
-  
+
 end

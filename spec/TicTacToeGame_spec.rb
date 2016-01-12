@@ -3,34 +3,36 @@ require 'TicTacToeGame.rb'
 describe TicTacToeGame do
 
   def simulateWinbyHuman()
-    @tictactoe.markBoard(0,"X")
-    @tictactoe.markBoard(1,"X")
-    @tictactoe.markBoard(2,"X")
+    @tictactoe.mark_board(0,"X")
+    @tictactoe.mark_board(1,"X")
+    @tictactoe.mark_board(2,"X")
     @tictactoe.switch_turn #depends whose turn is first.
   end
 
   def simulateWinbyComputer
-    @tictactoe.markBoard(0,"O")
-    @tictactoe.markBoard(1,"O")
-    @tictactoe.markBoard(2,"O")
+    @tictactoe.mark_board(0,"O")
+    @tictactoe.mark_board(1,"O")
+    @tictactoe.mark_board(2,"O")
   end
 
   def simulateTie()
-    @tictactoe.markBoard(0,"X")
-    @tictactoe.markBoard(1,"O")
-    @tictactoe.markBoard(2,"O")
-    @tictactoe.markBoard(3,"O")
-    @tictactoe.markBoard(4,"X")
-    @tictactoe.markBoard(5,"X")
-    @tictactoe.markBoard(6,"X")
-    @tictactoe.markBoard(7,"O")
-    @tictactoe.markBoard(8,"O")
+    @tictactoe.mark_board(0,"X")
+    @tictactoe.mark_board(1,"O")
+    @tictactoe.mark_board(2,"O")
+    @tictactoe.mark_board(3,"O")
+    @tictactoe.mark_board(4,"X")
+    @tictactoe.mark_board(5,"X")
+    @tictactoe.mark_board(6,"X")
+    @tictactoe.mark_board(7,"O")
+    @tictactoe.mark_board(8,"O")
   end
 
   before do
     @tictactoe = TicTacToeGame.new()
   end
-  describe "start-up" do
+
+  context "start-up" do
+
     it "returns false for tied when game sets up" do
       expect(@tictactoe.tied?()).to eq false
     end
@@ -40,7 +42,8 @@ describe TicTacToeGame do
     end
   end
 
-  describe "game over" do
+  context "game over" do
+
     it "returns true for when game is over" do
       @tictactoe.play_game
       expect(@tictactoe.gameOver?()).to eq true

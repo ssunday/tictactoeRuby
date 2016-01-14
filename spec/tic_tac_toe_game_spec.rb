@@ -21,5 +21,10 @@ describe TicTacToeGame do
     end
   end
 
+  it "plays game until game is over" do
+    @tictactoe.play_game
+    expect(@tictactoe.game_over?()).to eq true
+  end
+
 
 end

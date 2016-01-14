@@ -1,7 +1,3 @@
-#TicTacToe Board
-#Sarah Sunday
-#Creates a class which represents the tic tac toe board. Has functions to alter it and test for its current state.
-
 class TicTacToeBoard
 
   def initialize
@@ -41,7 +37,7 @@ class TicTacToeBoard
   end
 
   def tie?(computer_marker, human_marker)
-    
+
     @board.all? { |spot| spot == computer_marker || spot == human_marker }
   end
 

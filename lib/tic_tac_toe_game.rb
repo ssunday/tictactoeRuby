@@ -1,6 +1,3 @@
-#Tic Tac Toe Game
-#Mock class to test methods
-
 require 'tic_tac_toe_rules'
 require 'tic_tac_toe_player'
 

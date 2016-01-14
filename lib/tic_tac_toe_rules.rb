@@ -1,7 +1,3 @@
-#Tic Tac Toe Rules
-#Sarah Sunday
-#Manages the rules and gameplay of tic tac toe
-
 require 'tic_tac_toe_board'
 require 'tic_tac_toe_player'
 
@@ -16,7 +12,6 @@ class TicTacToeRules
 
   def game_turn(spot)
     @board.set_board_location(spot, @player_turn)
-    switch_turn()
   end
 
   def switch_turn
@@ -26,6 +21,15 @@ class TicTacToeRules
       @player_turn = @computer_marker
     end
   end
+
+  def switch_turn_minmax(current_player)
+    if current_player.eql?(@computer_marker)
+      @human_marker
+    else
+      @computer_marker
+    end
+  end
+
 
   def mark_board_location(spot, marker)
     @board.set_board_location(spot, marker)
@@ -37,6 +41,10 @@ class TicTacToeRules
     else
       return false
     end
+  end
+
+  def get_board
+    @board
   end
 
   def get_computer_marker
@@ -60,7 +68,7 @@ class TicTacToeRules
   end
 
   def human_won_minmax?(board,current_player)
-    current_player.eql?(@human_marker) && board.won?
+    current_player.eql?(@computer_marker) && board.won?
   end
 
   def computer_won?
@@ -68,7 +76,7 @@ class TicTacToeRules
   end
 
   def computer_won_minmax?(board, current_player)
-    current_player.eql?(@computer_marker) && board.won?
+    current_player.eql?(@human_marker) && board.won?
   end
 
   def game_won?
@@ -134,25 +142,26 @@ class TicTacToeRules
 
   def best_move
     best_move = nil
-    best_score = -1
+    best_score = -1e100
     available_spaces = []
     available_spaces = get_possible_moves(@board)
-    available_spaces.each do |move|
-      current_board = @board.clone
-      current_board.set_board_location(move.to_i, @player_turn)
-      if @player_turn.eql?(@computer_marker)
-        this_score = minmax(current_board, @human_marker, 0)
-      else
-        this_score = minmax(current_board, @computer_marker, 0)
-      end
 
-      if this_score >= best_score
+    current_player = @player_turn
+
+    available_spaces.each do |move|
+      current_board = @board.dup
+      current_board.set_board_location(move.to_i, current_player)
+      current_player = switch_turn_minmax(current_player)
+      this_score = minmax(current_board, current_player, 0)
+      if this_score > best_score
         best_score = this_score
         best_move = move.to_i
       end
-      
+
     end
+
     best_move
+
   end
 
   def get_possible_moves(board)
@@ -162,7 +171,7 @@ class TicTacToeRules
         possible_spaces << spot
       end
     end
-    possible_spaces
+    return possible_spaces
   end
 
   def game_score(board, current_player, depth)
@@ -189,37 +198,27 @@ class TicTacToeRules
       return game_score(board, current_player, depth)
     end
 
-    depth += 1
-
-    multiplier = -1
-
     if current_player != @player_turn
+      multiplier = -1
+    else
       multiplier = 1
     end
 
-    best_score = -1
-    available_spaces = []
+    best_score = -1e100
     available_spaces = get_possible_moves(board)
 
     available_spaces.each do |move|
 
-      board_new = board.clone
+      board_new = board.dup
       board_new.set_board_location(move.to_i, current_player)
-
-      if current_player.eql?(@computer_marker)
-        current_player = @human_marker
-      else
-        current_player = @computer_marker
-      end
-
-      this_score = multiplier * minmax(board_new, current_player, depth)
+      new_player = switch_turn_minmax(current_player)
+      this_score = multiplier * minmax(board_new, new_player, depth + 1)
       if this_score >= best_score
         best_score = this_score
       end
-
     end
 
-    return best_score * multiplier
+    return best_score
 
   end
 

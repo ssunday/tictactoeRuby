@@ -26,14 +26,6 @@ class TicTacToeRules
     @board.set_board_location(spot, marker)
   end
 
-  def location_valid_to_mark?(spot)
-    if @board.spot_value(spot) != player_two_marker && @board.spot_value(spot) != player_one_marker
-      return true
-    else
-      return false
-    end
-  end
-
   def get_board
     @board
   end

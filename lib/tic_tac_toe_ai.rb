@@ -40,16 +40,15 @@ class TicTacToeAi
 
     current_player = initial_player
 
-    available_spaces.each do |move|
+    available_spaces.each do |space|
       current_board = board.dup
-      current_board.set_board_location(move.to_i, current_player)
+      current_board.set_board_location(space.to_i, current_player)
       current_player = switch_turn(current_player)
       this_score = minmax(current_board, current_player, 0)
       if this_score > best_score
         best_score = this_score
-        best_move = move.to_i
+        best_move = space.to_i
       end
-
     end
 
     best_move
@@ -58,9 +57,9 @@ class TicTacToeAi
 
   def get_possible_moves(board)
     possible_spaces = []
-    board.current_board.each do |spot|
-      if spot != ai_marker && spot != other_player_marker
-        possible_spaces << spot
+    board.current_board.each do |space|
+      if board.location_valid_to_mark?(space.to_i, player_one_marker: ai_marker, player_two_marker: other_player_marker)
+        possible_spaces << space
       end
     end
     return possible_spaces

@@ -44,26 +44,6 @@ describe TicTacToeRules do
     expect(rules.get_player_one_marker).to eq player_one_marker
   end
 
-  context "location already taken" do
-
-    before do
-      rules.mark_board_location(0,player_one_marker)
-
-    end
-
-    it "#location_valid_to_mark? returns false" do
-      expect(rules.location_valid_to_mark?(0)).to eq false
-    end
-
-  end
-
-  context "location free" do
-
-    it "#location_valid_to_mark? is true" do
-      expect(rules.location_valid_to_mark?(0)).to eq true
-    end
-
-  end
 
   it "#switch_turn" do
     rules.switch_turn
@@ -72,7 +52,7 @@ describe TicTacToeRules do
 
   it "#game_turn" do
     rules.game_turn(0)
-    expect(rules.location_valid_to_mark?(0)).to eq false
+    expect(rules.get_board.location_valid_to_mark?(0, player_one_marker: player_one_marker, player_two_marker: player_two_marker)).to eq false
   end
 
   context "game over" do

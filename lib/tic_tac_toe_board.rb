@@ -1,4 +1,5 @@
 class TicTacToeBoard
+
   attr_reader :board
 
   def initialize
@@ -7,6 +8,14 @@ class TicTacToeBoard
 
   def set_board_location(location, marker)
     board[location] = marker
+  end
+
+  def location_valid_to_mark?(spot, player_markers = {})
+    if board[spot] != player_markers[:player_one_marker] && board[spot] != player_markers[:player_two_marker]
+      return true
+    else
+      return false
+    end
   end
 
   def display_board

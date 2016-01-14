@@ -42,13 +42,33 @@ describe TicTacToeBoard do
 
   end
 
-  it "#spot_value" do
-    expect(board.spot_value(0)).to eq "0"
-  end
+  # it "#spot_value" do
+  #   expect(board.spot_value(0)).to eq "0"
+  # end
 
   it "#set_board_location" do
     board.set_board_location(0,player_one_marker)
     expect(board.spot_value(0)).to eq player_one_marker
+  end
+
+  context "location already taken" do
+
+    before do
+      board.set_board_location(0,player_one_marker)
+    end
+
+    it "#location_valid_to_mark? returns false" do
+      expect(board.location_valid_to_mark?(0, player_one_marker: player_one_marker, player_two_marker: player_two_marker)).to eq false
+    end
+
+  end
+
+  context "location free" do
+
+    it "#location_valid_to_mark? is true" do
+      expect(board.location_valid_to_mark?(0, player_one_marker: player_one_marker, player_two_marker: player_two_marker)).to eq true
+    end
+
   end
 
   context "tie board" do

@@ -1,28 +1,29 @@
 require 'tic_tac_toe_rules'
 require 'tic_tac_toe_player'
+require 'tic_tac_toe_ai'
 
 class TicTacToeGame
-  attr_reader :game
+  attr_reader :game, :ai_player
   def initialize
     human_marker = "X"
     computer_marker = "O"
     first_player = human_marker
     computer = TicTacToePlayer.new(computer_marker)
     human = TicTacToePlayer.new(human_marker)
+    @ai_player = TicTacToeAi.new(computer_marker, human_marker)
     @game = TicTacToeRules.new(first_player, human, computer)
   end
 
   def play_game
     until game_over?
-      if game.get_player_turn.eql?(game.get_human_marker)
+      if game.get_player_turn.eql?(game.get_player_one_marker)
         #In this case this is the 'human' player
-        spot = game.best_move
+        spot = ai_player.best_move(game.get_board,game.get_player_turn)
       else
-        spot = game.best_move
+        spot = ai_player.best_move(game.get_board,game.get_player_turn)
       end
       game.game_turn(spot)
     end
-    #game.display_game_board
   end
 
   def game_over?()

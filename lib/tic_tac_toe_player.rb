@@ -5,7 +5,7 @@ class TicTacToePlayer
   end
 
   def get_marker
-    return @marker
+    @marker
   end
 
 end

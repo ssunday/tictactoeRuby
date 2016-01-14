@@ -8,10 +8,10 @@ class TicTacToeGame
     human_marker = "X"
     computer_marker = "O"
     first_player = human_marker
-    computer = TicTacToePlayer.new(computer_marker)
-    human = TicTacToePlayer.new(human_marker)
-    @ai_player = TicTacToeAi.new(computer_marker, human_marker)
-    @game = TicTacToeRules.new(first_player, human, computer)
+    player_one = TicTacToePlayer.new(computer_marker)
+    player_two = TicTacToePlayer.new(human_marker)
+    @ai_player = TicTacToeAi.new(ai_marker: computer_marker, other_player_marker: human_marker)
+    @game = TicTacToeRules.new(first_player, player_one, player_two)
   end
 
   def play_game

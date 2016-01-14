@@ -15,6 +15,18 @@ describe TicTacToeRules do
     @rules.mark_board_location(2,"O")
   end
 
+  def simulate_win_scenario
+    @rules.mark_board_location(0,"X")
+    @rules.mark_board_location(1,"X")
+    @rules.mark_board_location(3,"O")
+    @rules.mark_board_location(7,"O")
+  end
+
+  def simulate_block_scenario
+    @rules.mark_board_location(0,"O")
+    @rules.mark_board_location(1,"O")
+  end
+
   def simulate_tie
     @rules.mark_board_location(0,"X")
     @rules.mark_board_location(1,"O")
@@ -61,8 +73,22 @@ describe TicTacToeRules do
     expect(@rules.location_valid_to_mark?(0)).to eq false
   end
 
-  it "best move on initial board is the middle spot" do
-    expect(@rules.computer_best_move).to eq 4
+  context "#best move" do
+
+    it "on initial board is a corner spot" do
+      expect(@rules.best_move).to eq 8
+    end
+
+    it "when player has two in a row already and the third is open" do
+      simulate_win_scenario
+      expect(@rules.best_move).to eq 2
+    end
+
+    it "when opponent has two in a row already and the third is open" do
+      simulate_block_scenario
+      expect(@rules.best_move).to eq 2
+    end
+
   end
 
   context "game over" do

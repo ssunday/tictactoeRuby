@@ -59,8 +59,16 @@ class TicTacToeRules
     @player_turn.eql?(@computer_marker) && @board.won?
   end
 
+  def human_won_minmax?(board,current_player)
+    current_player.eql?(@human_marker) && board.won?
+  end
+
   def computer_won?
     @player_turn.eql?(@human_marker) && @board.won?
+  end
+
+  def computer_won_minmax?(board, current_player)
+    current_player.eql?(@computer_marker) && board.won?
   end
 
   def game_won?
@@ -71,49 +79,58 @@ class TicTacToeRules
     game_won? || tied?
   end
 
+  def game_over_minmax?(board)
+    board.won? || tied_minmax(board)
+  end
+
+  def tied_minmax(board)
+    board.tie?(@computer_marker, @human_marker)
+
+  end
+
   def tied?
     @board.tie?(@computer_marker, @human_marker)
   end
 
-  def computer_best_move
-    available_spaces = []
-    best_move = nil
-    board_new = @board.clone
-    if board_new.spot_value(4) == "4"
-      best_move = 4
-      return best_move
-    end
-    board_new.current_board.each do |spot_content|
-      if spot_content != @computer_marker && spot_content != @human_marker
-        available_spaces << spot_content
-      end
-    end
-    available_spaces.each do |available_spot|
-      board_new.set_board_location(available_spot.to_i, @human_marker)
-      if board_new.won?
-        best_move = available_spot.to_i
-        board_new.set_board_location(available_spot.to_i, available_spot)
-        return best_move
-      else
-        board_new.set_board_location(available_spot.to_i, @computer_marker)
-        if board_new.won?
-          best_move = available_spot.to_i
-          board_new.set_board_location(available_spot.to_i, available_spot)
-          return best_move
-        else
-          board_new.set_board_location(available_spot.to_i, available_spot)
-        end
-      end
-    end
-
-    if best_move
-      return best_move
-    else
-      n = rand(0..available_spaces.count)
-      return available_spaces[n].to_i
-    end
-
-  end
+ # def computer_best_move
+ #    available_spaces = []
+ #    best_move = nil
+ #    board_new = @board.clone
+ #    if board_new.spot_value(4) == "4"
+ #      best_move = 4
+ #      return best_move
+ #    end
+ #    board_new.current_board.each do |spot_content|
+ #      if spot_content != @computer_marker && spot_content != @human_marker
+ #        available_spaces << spot_content
+ #      end
+ #    end
+ #    available_spaces.each do |available_spot|
+ #      board_new.set_board_location(available_spot.to_i, @human_marker)
+ #      if board_new.won?
+ #        best_move = available_spot.to_i
+ #        board_new.set_board_location(available_spot.to_i, available_spot)
+ #        return best_move
+ #      else
+ #        board_new.set_board_location(available_spot.to_i, @computer_marker)
+ #        if board_new.won?
+ #          best_move = available_spot.to_i
+ #          board_new.set_board_location(available_spot.to_i, available_spot)
+ #          return best_move
+ #        else
+ #          board_new.set_board_location(available_spot.to_i, available_spot)
+ #        end
+ #      end
+ #    end
+ #
+ #    if best_move
+ #      return best_move
+ #    else
+ #      n = rand(0..available_spaces.count)
+ #      return available_spaces[n].to_i
+ #    end
+ #
+ #  end
 
   def best_move
     best_move = nil
@@ -124,15 +141,16 @@ class TicTacToeRules
       current_board = @board.clone
       current_board.set_board_location(move.to_i, @player_turn)
       if @player_turn.eql?(@computer_marker)
-        score = minmax(current_board, @human_marker)
+        this_score = minmax(current_board, @human_marker, 0)
       else
-        score = minmax(current_board, @computer_marker)
+        this_score = minmax(current_board, @computer_marker, 0)
       end
-      score = minmax(current_board, @player_turn)
-      if score >= best_score
-        best_score = score
+
+      if this_score >= best_score
+        best_score = this_score
         best_move = move.to_i
       end
+      
     end
     best_move
   end
@@ -147,32 +165,36 @@ class TicTacToeRules
     possible_spaces
   end
 
-  def score
-    if computer_won?
-      if @player_turn.eql?(@computer_marker)
-        return 1
+  def game_score(board, current_player, depth)
+    if computer_won_minmax?(board, current_player)
+      if current_player.eql?(@computer_marker)
+        return 10 - depth
       else
-        return -1
+        return depth - 10
       end
-    elsif human_won?
-      if @player_turn.eql?(@computer_marker)
-        return -1
+    elsif human_won_minmax?(board, current_player)
+      if current_player.eql?(@computer_marker)
+        return depth - 10
       else
-        return 1
+        return 10 - depth
       end
     else
       return 0
     end
   end
 
-  def minmax(board, current_player)
-    if game_over?
-      return score
+  def minmax(board, current_player, depth)
+
+    if game_over_minmax?(board)
+      return game_score(board, current_player, depth)
     end
 
-    multiplier = 1
+    depth += 1
+
+    multiplier = -1
+
     if current_player != @player_turn
-      multiplier = -1
+      multiplier = 1
     end
 
     best_score = -1
@@ -180,6 +202,7 @@ class TicTacToeRules
     available_spaces = get_possible_moves(board)
 
     available_spaces.each do |move|
+
       board_new = board.clone
       board_new.set_board_location(move.to_i, current_player)
 
@@ -189,12 +212,15 @@ class TicTacToeRules
         current_player = @computer_marker
       end
 
-      score = multiplier*minmax(board_new,current_player)
-      if score >= best_score
-        best_score = score
+      this_score = multiplier * minmax(board_new, current_player, depth)
+      if this_score >= best_score
+        best_score = this_score
       end
+
     end
-    best_score*multiplier
+
+    return best_score * multiplier
+
   end
 
 end

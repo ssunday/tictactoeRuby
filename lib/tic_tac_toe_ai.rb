@@ -72,6 +72,7 @@ class TicTacToeAi
       return depth - 10
     end
     0
+    
   end
 
   def minmax(board, current_player, depth)

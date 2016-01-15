@@ -1,38 +1,15 @@
 require 'tic_tac_toe_rules'
-require 'tic_tac_toe_ai'
+require 'tic_tac_toe_board'
+
 describe TicTacToeRules do
 
   attr_reader :player_one_marker, :player_two_marker, :rules
   before do
     @player_one_marker = "X"
     @player_two_marker = "O"
-    first_player = @player_one_marker
-    @rules = TicTacToeRules.new(first_player, @player_one_marker, @player_two_marker)
-  end
-
-  def simulate_win_by_player_one
-    rules.mark_board_location(0,player_one_marker)
-    rules.mark_board_location(1,player_one_marker)
-    rules.mark_board_location(2,player_one_marker)
-    rules.switch_turn #depends whose turn is first.
-  end
-
-  def simulate_win_by_player_two
-    rules.mark_board_location(0,player_two_marker)
-    rules.mark_board_location(1,player_two_marker)
-    rules.mark_board_location(2,player_two_marker)
-  end
-
-  def simulate_tie
-    rules.mark_board_location(0,player_one_marker)
-    rules.mark_board_location(1,player_two_marker)
-    rules.mark_board_location(2,player_two_marker)
-    rules.mark_board_location(3,player_two_marker)
-    rules.mark_board_location(4,player_one_marker)
-    rules.mark_board_location(5,player_one_marker)
-    rules.mark_board_location(6,player_one_marker)
-    rules.mark_board_location(7,player_two_marker)
-    rules.mark_board_location(8,player_two_marker)
+    @first_player = @player_one_marker
+    initial_board = TicTacToeBoard.new
+    @rules = TicTacToeRules.new(initial_board, first_player: @first_player, player_one: @player_one_marker, player_two: @player_two_marker)
   end
 
   it "#switch_turn succesfully switches player turn" do
@@ -60,52 +37,68 @@ describe TicTacToeRules do
   context "game over" do
 
     context "if player one won" do
-
+      attr_reader :rules_win_one
       before do
-        simulate_win_by_player_one
+        board_win = TicTacToeBoard.new(board: [\
+          player_one_marker, "1", player_two_marker, \
+          player_one_marker, player_one_marker, player_one_marker, \
+          player_one_marker, "7", "8"])
+          @rules_win_one = TicTacToeRules.new(board_win, first_player: @first_player, player_one: @player_one_marker, player_two: @player_two_marker)
+          @rules_win_one.switch_turn
       end
 
+
       it "#player_one_won? is true" do
-        expect(rules.player_one_won?).to eq true
+        expect(rules_win_one.player_one_won?).to eq true
       end
 
       it "#player_two_won? is false" do
-        expect(rules.player_two_won?).to eq false
+        expect(rules_win_one.player_two_won?).to eq false
       end
 
     end
 
     context "if player two won" do
-
+      attr_reader :rules_win_two
       before do
-        simulate_win_by_player_two
+        board_win = TicTacToeBoard.new(board: [\
+          player_two_marker, "1", player_two_marker, \
+          player_two_marker, player_one_marker, player_one_marker, \
+          player_two_marker, "7", "8"])
+          @rules_win_two = TicTacToeRules.new(board_win, first_player: @first_player, player_one: @player_one_marker, player_two: @player_two_marker)
       end
 
       it "#player_two_won? is true" do
-        expect(rules.player_two_won?).to eq true
+        expect(rules_win_two.player_two_won?).to eq true
       end
 
       it "#player_one_won? is false" do
-        expect(rules.player_one_won?).to eq false
+        expect(rules_win_two.player_one_won?).to eq false
       end
 
     end
 
     context "if game is tied" do
+      attr_reader :rules_tie
+
       before do
-        simulate_tie
+        board_tie = TicTacToeBoard.new(board: [\
+          player_one_marker, player_two_marker, player_two_marker, \
+          player_two_marker, player_one_marker, player_one_marker, \
+          player_one_marker, player_two_marker, player_two_marker])
+        @rules_tie = TicTacToeRules.new(board_tie, first_player: @first_player, player_one: @player_one_marker, player_two: @player_two_marker)
       end
 
       it "#tied? is true" do
-        expect(rules.tied?).to eq true
+        expect(rules_tie.tied?).to eq true
       end
 
       it "#player_one_won? is false" do
-        expect(rules.player_one_won?).to eq false
+        expect(rules_tie.player_one_won?).to eq false
       end
 
       it "#player_two_won? is false" do
-        expect(rules.player_two_won?).to eq false
+        expect(rules_tie.player_two_won?).to eq false
       end
 
     end

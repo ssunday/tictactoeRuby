@@ -1,5 +1,6 @@
 require 'tic_tac_toe_rules'
 require 'tic_tac_toe_ai'
+require 'tic_tac_toe_board'
 
 class TicTacToeGame
   attr_reader :game, :ai_player
@@ -7,8 +8,9 @@ class TicTacToeGame
     player_one_marker = "X"
     player_two_marker = "O"
     first_player = player_one_marker
+    initial_board = TicTacToeBoard.new
     @ai_player = TicTacToeAi.new(ai_marker: player_one_marker, other_player_marker: player_two_marker)
-    @game = TicTacToeRules.new(first_player, player_one_marker, player_two_marker)
+    @game = TicTacToeRules.new(initial_board, first_player: first_player, player_one: player_one_marker, player_two:player_two_marker)
   end
 
   def play_game

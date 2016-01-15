@@ -1,5 +1,6 @@
 require 'tic_tac_toe_ai'
 require 'tic_tac_toe_board'
+
 describe TicTacToeAi do
   attr_reader :other_player_marker, :ai_marker, :ai_player, :board
   before do

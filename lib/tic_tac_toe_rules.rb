@@ -2,11 +2,11 @@ require 'tic_tac_toe_board'
 
 class TicTacToeRules
   attr_reader :player_turn, :player_one_marker, :player_two_marker, :board
-  def initialize(first_player, player_one, player_two)
-    @player_turn = first_player
-    @player_one_marker = player_one
-    @player_two_marker = player_two
-    @board = TicTacToeBoard.new
+  def initialize(initial_board, player_info = {}) #first_player, player_one, player_two)
+    @player_turn = player_info[:first_player]
+    @player_one_marker = player_info[:player_one]
+    @player_two_marker = player_info[:player_two]
+    @board = initial_board
   end
 
   def game_turn(spot)
@@ -42,7 +42,7 @@ class TicTacToeRules
   end
 
   def tied?
-    @board.tie?(player_one_marker: player_two_marker, player_two_marker: player_one_marker)
+    @board.tie?(player_one_marker: player_one_marker, player_two_marker: player_two_marker)
   end
 
 end

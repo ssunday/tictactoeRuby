@@ -31,10 +31,6 @@ class TicTacToeBoard
     board[spot]
   end
 
-  def current_board
-    board
-  end
-
   def won?
     [board[0], board[1], board[2]].uniq.length == 1 ||
     [board[3], board[4], board[5]].uniq.length == 1 ||
@@ -47,7 +43,7 @@ class TicTacToeBoard
   end
 
   def tie?(player_markers = {})
-    board.all? { |spot| spot == player_markers[:player_one_marker] || spot == player_markers[:player_two_marker]}
+    board.all? { |spot| spot == player_markers[:player_one_marker] || spot == player_markers[:player_two_marker]} && won? == false
   end
 
 end

@@ -7,7 +7,7 @@ describe TicTacToeRules do
     @player_one_marker = "X"
     @player_two_marker = "O"
     first_player = @player_one_marker
-    @rules = TicTacToeRules.new(first_player, TicTacToePlayer.new(@player_one_marker), TicTacToePlayer.new(@player_two_marker))
+    @rules = TicTacToeRules.new(first_player, @player_one_marker, @player_two_marker)
   end
 
   def simulate_win_by_human
@@ -36,23 +36,23 @@ describe TicTacToeRules do
   end
 
   it "#get_player_two_marker returns computer marker" do
-    expect(rules.get_player_two_marker).to eq player_two_marker
+    expect(rules.player_two_marker).to eq player_two_marker
 
   end
 
   it "#get_player_one_marker returns human marker" do
-    expect(rules.get_player_one_marker).to eq player_one_marker
+    expect(rules.player_one_marker).to eq player_one_marker
   end
 
 
   it "#switch_turn" do
     rules.switch_turn
-    expect(rules.get_player_turn).to eq player_two_marker
+    expect(rules.player_turn).to eq player_two_marker
   end
 
   it "#game_turn" do
     rules.game_turn(0)
-    expect(rules.get_board.location_valid_to_mark?(0, player_one_marker: player_one_marker, player_two_marker: player_two_marker)).to eq false
+    expect(rules.board.location_valid_to_mark?(0, player_one_marker: player_one_marker, player_two_marker: player_two_marker)).to eq false
   end
 
   context "game over" do

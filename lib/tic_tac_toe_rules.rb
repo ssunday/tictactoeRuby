@@ -1,12 +1,11 @@
 require 'tic_tac_toe_board'
-require 'tic_tac_toe_player'
 
 class TicTacToeRules
-  attr_reader :player_turn, :player_one_marker, :player_two_marker
+  attr_reader :player_turn, :player_one_marker, :player_two_marker, :board
   def initialize(first_player, player_one, player_two)
     @player_turn = first_player
-    @player_one_marker = player_one.get_marker
-    @player_two_marker = player_two.get_marker
+    @player_one_marker = player_one
+    @player_two_marker = player_two
     @board = TicTacToeBoard.new
   end
 
@@ -26,24 +25,8 @@ class TicTacToeRules
     @board.set_board_location(spot, marker)
   end
 
-  def get_board
-    @board
-  end
-
-  def get_player_one_marker
-    player_one_marker
-  end
-
-  def get_player_two_marker
-    player_two_marker
-  end
-
   def display_game_board
     @board.display_board
-  end
-
-  def get_player_turn
-    player_turn
   end
 
   def player_one_won?

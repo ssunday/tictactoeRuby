@@ -3,7 +3,7 @@ class TicTacToeAi
 
   attr_reader :ai_marker, :other_player_marker
 
-  def initialize(markers = {}) #ai_marker, other_player_marker)
+  def initialize(markers = {})
     @ai_marker = markers[:ai_marker]
     @other_player_marker = markers[:other_player_marker]
   end
@@ -31,7 +31,7 @@ class TicTacToeAi
 
   def get_possible_moves(board)
     possible_spaces = []
-    board.current_board.each do |space|
+    board.board.each do |space|
       if board.location_valid_to_mark?(space.to_i, player_one_marker: ai_marker, player_two_marker: other_player_marker)
         possible_spaces << space
       end

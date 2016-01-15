@@ -12,14 +12,14 @@ describe TicTacToeBoard do
   context "initial board" do
 
     it "is a default 0-8 board" do
-        expect(board.current_board).to eql ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
+        expect(board.board).to eql ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
     end
 
-    it "does not register as win" do
+    it "does not register as a win" do
       expect(board.won?).to eq false
     end
 
-    it "does not register as tie" do
+    it "does not register as a tie" do
       expect(board.tie?(player_one_marker: player_one_marker, player_two_marker: player_two_marker)).to eq false
     end
 
@@ -30,10 +30,10 @@ describe TicTacToeBoard do
     expect(board.spot_value(0)).to eq player_one_marker
   end
 
-  context "location already taken" do
+  context "when a location has already been marked" do
 
     before do
-      board.set_board_location(0,player_one_marker)
+      board.set_board_location(0, player_one_marker)
     end
 
     it "#location_valid_to_mark? returns false" do
@@ -42,7 +42,7 @@ describe TicTacToeBoard do
 
   end
 
-  context "location free" do
+  context "location is available and has not been marked" do
 
     it "#location_valid_to_mark? is true" do
       expect(board.location_valid_to_mark?(0, player_one_marker: player_one_marker, player_two_marker: player_two_marker)).to eq true
@@ -50,7 +50,7 @@ describe TicTacToeBoard do
 
   end
 
-  context "tie board" do
+  context "the board is in a tie state" do
     attr_reader :board_tie
     before do
       @board_tie = TicTacToeBoard.new(board: [\
@@ -69,7 +69,7 @@ describe TicTacToeBoard do
 
   end
 
-  context "win board" do
+  context "the board is in a win state" do
 
     attr_reader :board_win
     before do
@@ -79,7 +79,7 @@ describe TicTacToeBoard do
         player_two_marker, "7", "8"])
     end
 
-    it "#win? returns true" do
+    it "#won? returns true" do
       expect(board_win.won?).to eq true
     end
 

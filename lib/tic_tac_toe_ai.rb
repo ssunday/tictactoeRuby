@@ -1,4 +1,3 @@
-
 class TicTacToeAi
 
   attr_reader :ai_marker, :other_player_marker
@@ -32,7 +31,7 @@ class TicTacToeAi
   def get_possible_moves(board)
     possible_spaces = []
     board.board.each do |space|
-      if board.location_valid_to_mark?(space.to_i, player_one_marker: ai_marker, player_two_marker: other_player_marker)
+      if board.location_valid_to_mark?(location: space.to_i, player_one_marker: ai_marker, player_two_marker: other_player_marker)
         possible_spaces << space
       end
     end
@@ -72,7 +71,7 @@ class TicTacToeAi
       return depth - 10
     end
     0
-    
+
   end
 
   def minmax(board, current_player, depth)

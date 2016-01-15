@@ -1,7 +1,6 @@
 class TicTacToeBoard
 
   attr_reader :board
-
   def initialize(boards = {})
     @board = boards.fetch(:board, ["0", "1", "2", "3", "4", "5", "6", "7", "8"])
   end
@@ -10,12 +9,8 @@ class TicTacToeBoard
     board[location] = marker
   end
 
-  def location_valid_to_mark?(spot, player_markers = {})
-    if board[spot] != player_markers[:player_one_marker] && board[spot] != player_markers[:player_two_marker]
-      return true
-    else
-      return false
-    end
+  def location_valid_to_mark?(args = {})
+    board[args[:location]] != args[:player_one_marker] && board[args[:location]] != args[:player_two_marker]
   end
 
   def display_board
@@ -25,10 +20,6 @@ class TicTacToeBoard
     "   |   #{board[3]}   |   #{board[4]}   |   #{board[5]}   |   \n"\
     "---|-------|-------|-------|---\n"\
     "   |   #{board[6]}   |   #{board[7]}   |   #{board[8]}   |   \n\n"
-  end
-
-  def spot_value(spot)
-    board[spot]
   end
 
   def won?

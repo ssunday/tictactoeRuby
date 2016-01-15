@@ -23,12 +23,12 @@ describe TicTacToeRules do
       rules.game_turn(0)
     end
 
-    it "makes it invalid to mark" do
-      expect(rules.board.location_valid_to_mark?(0, player_one_marker: player_one_marker, player_two_marker: player_two_marker)).to eq false
+    it "makes selected location invalid to mark" do
+      expect(rules.board.location_valid_to_mark?(location: 0, player_one_marker: player_one_marker, player_two_marker: player_two_marker)).to eq false
     end
 
-    it "changes it to player one's marker" do
-      expect(rules.board.spot_value(0)).to eq player_one_marker
+    it "changes player turn" do
+      expect(rules.player_turn).to eq player_two_marker
     end
 
   end

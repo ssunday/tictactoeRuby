@@ -8,37 +8,59 @@ class TicTacToeConsoleInputOutput
     puts "Thanks! That's it. Now you can play."
   end
 
-  def ask_for_human_marker
-    puts "What is your marker? (I.e like 'X', but can be any single letter excluding integers.)"
-    human_marker = gets.chomp
-    while human_marker =~ /\A\d+\z/ ? true : false || human_marker.length != 1
+  def ai_player_one?
+    puts "Do you wish for player one to be an AI? If no, they will be a human player. (y/n)"
+    response = gets.chomp
+    while response != "y" && response != "n"
+      puts "Sorry, that was an invalid option."
+      puts "Do you wish for player one to be an AI? If no, they will be a human player. (y/n)"
+      response = gets.chomp
+    end
+    response.eql?("y")
+  end
+
+  def ai_player_two?
+    puts "Do you wish for player two to be an AI? If no, they will be a human player. (y/n)"
+    response = gets.chomp
+    while response != "y" && response != "n"
+      puts "Sorry, that was an invalid option."
+      puts "Do you wish for player two to be an AI? If no, they will be a human player. (y/n)"
+      response = gets.chomp
+    end
+    response.eql?("y")
+  end
+
+  def ask_for_player_one_marker
+    puts "What is player one's marker? (I.e like 'X', but can be any single letter excluding integers.)"
+    @player_one_marker = gets.chomp
+    while @player_one_marker =~ /\A\d+\z/ ? true : false || @player_one_marker.length != 1
        puts "Sorry, that marker was invalid."
        puts "What is your marker? (I.e like 'X', but can be any single letter excluding integers.)"
-       human_marker = gets.chomp
-     end
-    return human_marker
+       @player_one_marker = gets.chomp
+    end
+    @player_one_marker
   end
 
-  def ask_for_computer_marker(human_marker)
-    puts "What is the computer's marker? (Make it different from your own.)"
-    computer_marker = gets.chomp
-    while computer_marker =~ /\A\d+\z/ ? true : false || computer_marker == human_marker || computer_marker.length != 1
+  def ask_for_player_two_marker
+    puts "What is player two's marker? (Make it different from player one's.)"
+    @player_two_marker = gets.chomp
+    while @player_two_marker =~ /\A\d+\z/ ? true : false || @player_two_marker.eql?(@player_one_marker) || @player_two_marker.length != 1
        puts "Sorry, that marker was invalid."
        puts "What is the computer's marker? (Make it different from your own, a single letter, and not a number.)"
-       computer_marker = gets.chomp
+       @player_two_marker = gets.chomp
     end
-    return computer_marker
+    @player_two_marker
   end
 
-  def ask_who_is_going_first(human_marker, computer_marker)
-    puts "Who is going first? (Type your marker for yourself or the computer marker for computer.)"
+  def ask_who_is_going_first
+    puts "Which player is going first? (Type that player's marker to have them go first.)"
     first_player = gets.chomp
-    while !(first_player.eql?(human_marker)) && !(first_player.eql?(computer_marker))
+    while !(first_player.eql?(@player_one_marker)) && !(first_player.eql?(@player_two_marker))
       puts "Sorry, that was not valid. Please try again."
-      puts "Who is going first? (Type your marker for yourself or the computer marker for computer.)"
+      puts "Which player is going first? (Type that player's marker to have them go first.)"
       first_player = gets.chomp
     end
-    return first_player
+    first_player
   end
 
   def ask_player_for_location_to_mark
@@ -51,52 +73,57 @@ class TicTacToeConsoleInputOutput
         spot = nil
       end
     end
-    return spot.to_i
+    spot.to_i
   end
 
-  def report_it_is_humans_turn
-    puts "It is your turn."
+  def report_current_turn_one
+    puts "\nIt is player ONE's turn."
   end
 
-  def report_it_is_computers_turn
-    puts "It is the computer player's turn."
+  def report_current_turn_two
+    puts "\nIt is player TWO's turn."
   end
 
-  def report_human_location_marked(location)
-    puts "You have selected spot #{location}!"
+  def report_location_marked(current_player, location)
+    puts "\n#{location} has been marked with an #{current_player}!"
   end
 
-  def report_computer_location_marked(location)
-    puts "The computer has selected spot #{location}!"
+  def display_board(board)
+    puts "\n"\
+    "   |   #{board[0]}   |   #{board[1]}   |   #{board[2]}   |   \n"\
+    "---|-------|-------|-------|--- \n"\
+    "   |   #{board[3]}   |   #{board[4]}   |   #{board[5]}   |   \n"\
+    "---|-------|-------|-------|---\n"\
+    "   |   #{board[6]}   |   #{board[7]}   |   #{board[8]}   |   \n\n"
   end
 
-  def game_over_screen_player_won
-    puts "You WON!"
+  def game_over_player_one_won
+    puts "Player one has WON!"
     puts "GAME IS OVER. Thanks for playing!"
   end
 
-  def game_over_screen_computer_won
-    puts "The computer has won!"
+  def game_over_player_two_won
+    puts "Player two has WON!"
     puts "GAME IS OVER. Thanks for playing!"
   end
 
-  def game_over_screen_tied
+  def game_over_tied
     puts "TIE!"
-    puts "GAME IS OVER. Thanks for playing!"
+    puts "GAME IS OVER."
   end
 
-  def restart
-    puts "Do you wish to play again? (yes/no)"
+  def thanks_for_playing_message
+    puts "Thanks for playing!"
+  end
+
+  def restart?
+    puts "Do you wish to play again? (y/n)"
     play_again = gets.chomp
-    while not(play_again.eql?("yes")) && not(play_again.eql?("no"))
-      puts "Please select either yes or no."
+    while not(play_again.eql?("y")) && not(play_again.eql?("n"))
+      puts "Please select either y or n."
       play_again = gets.chomp
     end
-    if play_again.eql?("yes")
-      return true
-    else
-      return false
-    end
+    play_again.eql?("y")
   end
 
 end

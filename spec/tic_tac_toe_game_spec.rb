@@ -1,6 +1,6 @@
 require 'tic_tac_toe_game'
 
-describe TicTacToeGame do
+xdescribe TicTacToeGame do
 
   attr_reader :tictactoe_game
 

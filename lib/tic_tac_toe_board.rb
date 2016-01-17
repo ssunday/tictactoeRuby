@@ -13,15 +13,6 @@ class TicTacToeBoard
     board[args[:location]] != args[:player_one_marker] && board[args[:location]] != args[:player_two_marker]
   end
 
-  def display_board
-    puts "\n"\
-    "   |   #{board[0]}   |   #{board[1]}   |   #{board[2]}   |   \n"\
-    "---|-------|-------|-------|--- \n"\
-    "   |   #{board[3]}   |   #{board[4]}   |   #{board[5]}   |   \n"\
-    "---|-------|-------|-------|---\n"\
-    "   |   #{board[6]}   |   #{board[7]}   |   #{board[8]}   |   \n\n"
-  end
-
   def won?
     [board[0], board[1], board[2]].uniq.length == 1 ||
     [board[3], board[4], board[5]].uniq.length == 1 ||

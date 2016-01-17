@@ -10,11 +10,10 @@ class TicTacToeAi
   def best_move(board, initial_player)
     best_move = nil
     best_score = -1e100
-    available_spaces = []
     available_spaces = get_possible_moves(board)
     current_player = initial_player
     available_spaces.each do |space|
-      current_board = board.dup
+      current_board = board.clone
       current_board.set_board_location(space.to_i, current_player)
       current_player = switch_turn(current_player)
       this_score = minmax(current_board, current_player, 0)
@@ -62,6 +61,30 @@ class TicTacToeAi
     board.tie?(player_one_marker: ai_marker, player_two_marker: other_player_marker)
   end
 
+  def minmax(board, current_player, depth)
+    if game_over?(board)
+      return game_score(board, current_player, depth)
+    end
+    if current_player != ai_marker
+      multiplier = -1
+    else
+      multiplier = 1
+    end
+    best_score = -1e100
+    available_spaces = get_possible_moves(board)
+    available_spaces.each do |move|
+      board_new = board.clone
+      board_new.set_board_location(move.to_i, current_player)
+      new_player = switch_turn(current_player)
+      this_score = multiplier * minmax(board_new, new_player, depth + 1)
+      if this_score >= best_score
+        best_score = this_score
+      end
+    end
+
+    return best_score
+  end
+
   def game_score(board, current_player, depth)
 
     if ai_won?(board, current_player) && current_player.eql?(ai_marker) \
@@ -74,29 +97,4 @@ class TicTacToeAi
 
   end
 
-  def minmax(board, current_player, depth)
-    if game_over?(board)
-      return game_score(board, current_player, depth)
-    end
-
-    if current_player != ai_marker
-      multiplier = -1
-    else
-      multiplier = 1
-    end
-
-    best_score = -1e100
-    available_spaces = get_possible_moves(board)
-    available_spaces.each do |move|
-      board_new = board.dup
-      board_new.set_board_location(move.to_i, current_player)
-      new_player = switch_turn(current_player)
-      this_score = multiplier * minmax(board_new, new_player, depth + 1)
-      if this_score >= best_score
-        best_score = this_score
-      end
-    end
-
-    return best_score
-  end
 end

@@ -86,11 +86,10 @@ class TicTacToeAi
 
   def game_score(board, current_player, depth)
 
-    if ai_won?(board, current_player) && current_player.eql?(ai_marker) \
-      || other_player_won?(board, current_player) && current_player.eql?(other_player_marker)
-      10 - depth
-    else
+    if ai_won?(board, current_player)
       depth - 10
+    elsif other_player_won?(board, current_player)
+      10 - depth
     end
     0
   end

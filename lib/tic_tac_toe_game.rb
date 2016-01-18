@@ -76,6 +76,8 @@ class TicTacToeGame
     else
       @input_output.game_over_tied
     end
+    @ai_player_one = nil
+    @ai_player_two = nil
   end
 end
 

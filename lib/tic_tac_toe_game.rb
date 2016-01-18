@@ -40,7 +40,7 @@ class TicTacToeGame
   def play_game
     @input_output.display_board(rules.board.board)
     until rules.game_over?
-      current_board = TicTacToeBoard.new(board: rules.board.board)
+      current_board = TicTacToeBoard.new(board: Array.new(rules.board.board))
       if rules.player_turn.eql?(rules.player_one_marker)
         @input_output.report_current_turn_one
         if @ai_player_one != nil
@@ -64,7 +64,6 @@ class TicTacToeGame
       end
       @input_output.report_location_marked(rules.player_turn, spot)
       rules.game_turn(spot)
-      puts rules.board.board
       @input_output.display_board(rules.board.board)
     end
   end

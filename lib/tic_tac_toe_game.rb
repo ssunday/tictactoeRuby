@@ -80,6 +80,3 @@ class TicTacToeGame
     @ai_player_two = nil
   end
 end
-
-game = TicTacToeGame.new
-game.run_the_game

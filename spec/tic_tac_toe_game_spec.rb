@@ -48,7 +48,12 @@ describe TicTacToeGame do
 
   end
 
-  xcontext "game is over" do
+  context "game is over" do
+    
+    before do
+      tictactoe_game.start_game
+    end
+
     it "#game_over is true" do
       tictactoe_game.rules.board.set_board_location(0, tictactoe_game.rules.player_turn)
       tictactoe_game.rules.board.set_board_location(1, tictactoe_game.rules.player_turn)

@@ -34,7 +34,7 @@ class TicTacToeAi
         possible_spaces << space
       end
     end
-    return possible_spaces
+    possible_spaces
   end
 
   def switch_turn(current_player)
@@ -81,20 +81,18 @@ class TicTacToeAi
         best_score = this_score
       end
     end
-
-    return best_score
+    best_score
   end
 
   def game_score(board, current_player, depth)
 
     if ai_won?(board, current_player) && current_player.eql?(ai_marker) \
       || other_player_won?(board, current_player) && current_player.eql?(other_player_marker)
-      return 10 - depth
+      10 - depth
     else
-      return depth - 10
+      depth - 10
     end
     0
-
   end
 
 end

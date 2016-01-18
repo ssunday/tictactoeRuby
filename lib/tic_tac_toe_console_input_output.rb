@@ -35,7 +35,7 @@ class TicTacToeConsoleInputOutput
     @player_one_marker = gets.chomp
     while @player_one_marker =~ /\A\d+\z/ ? true : false || @player_one_marker.length != 1
        puts "Sorry, that marker was invalid."
-       puts "What is your marker? (I.e like 'X', but can be any single letter excluding integers.)"
+       puts "What is player one's marker? (I.e like 'X', but can be any single letter excluding integers.)"
        @player_one_marker = gets.chomp
     end
     @player_one_marker
@@ -46,7 +46,7 @@ class TicTacToeConsoleInputOutput
     @player_two_marker = gets.chomp
     while @player_two_marker =~ /\A\d+\z/ ? true : false || @player_two_marker.eql?(@player_one_marker) || @player_two_marker.length != 1
        puts "Sorry, that marker was invalid."
-       puts "What is the computer's marker? (Make it different from your own, a single letter, and not a number.)"
+       puts "What is the player two's marker? (Make it different from player one's, a single letter, and not a number.)"
        @player_two_marker = gets.chomp
     end
     @player_two_marker

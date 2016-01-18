@@ -17,7 +17,7 @@ describe TicTacToeAi do
     end
 
     it "#best_move is top left, aka 0" do
-      expect(ai_player.best_move(init_board, player_turn)).to eq 0
+      expect(ai_player.move(init_board, player_turn)).to eq 0
     end
 
   end
@@ -29,7 +29,7 @@ describe TicTacToeAi do
     end
 
     it "#best_move chooses winning move" do
-      expect(ai_player.best_move(win_board, player_turn)).to eq 2
+      expect(ai_player.move(win_board, player_turn)).to eq 2
     end
 
   end
@@ -41,7 +41,7 @@ describe TicTacToeAi do
     end
 
     it "#best_move blocks the opponent by selecting the open spot" do
-      expect(ai_player.best_move(block_board, player_turn)).to eq 2
+      expect(ai_player.move(block_board, player_turn)).to eq 2
     end
 
   end
@@ -54,7 +54,7 @@ describe TicTacToeAi do
     end
 
     it "#best_move prioritizes winning" do
-      expect(ai_player.best_move(win_block_board, player_turn)).to eq 2
+      expect(ai_player.move(win_block_board, player_turn)).to eq 2
     end
 
   end

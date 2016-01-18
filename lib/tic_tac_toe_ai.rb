@@ -7,7 +7,7 @@ class TicTacToeAi
     @other_player_marker = markers[:other_player_marker]
   end
 
-  def best_move(board, initial_player)
+  def move(board, initial_player)
     best_move = nil
     best_score = -1e100
     available_spaces = get_possible_moves(board)

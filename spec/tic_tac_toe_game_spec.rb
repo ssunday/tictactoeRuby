@@ -49,7 +49,7 @@ describe TicTacToeGame do
   end
 
   context "game is over" do
-    
+
     before do
       tictactoe_game.start_game
     end

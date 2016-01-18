@@ -69,37 +69,6 @@ class TicTacToeGame
     end
   end
 
-  # def play_game
-  #   @input_output.display_board(rules.board.board)
-  #   until rules.game_over?
-  #     current_board = TicTacToeBoard.new(board: Array.new(rules.board.board))
-  #     if rules.player_turn.eql?(rules.player_one_marker)
-  #       @input_output.report_current_turn_one
-  #       if @ai_player_one != nil
-  #         spot = @ai_player_one.best_move(current_board, rules.player_turn)
-  #       else
-  #         spot = @input_output.ask_player_for_location_to_mark
-  #         while current_board.location_valid_to_mark?(location: spot, player_one_marker: rules.player_one_marker, player_two_marker: rules.player_two_marker) == false
-  #           spot = @input_output.ask_player_for_location_to_mark
-  #         end
-  #       end
-  #     else
-  #       @input_output.report_current_turn_two
-  #       if @ai_player_two != nil
-  #         spot = @ai_player_two.best_move(current_board, rules.player_turn)
-  #       else
-  #         spot = @input_output.ask_player_for_location_to_mark
-  #         while current_board.location_valid_to_mark?(location: spot, player_one_marker: rules.player_one_marker, player_two_marker: rules.player_two_marker) == false
-  #           spot = @input_output.ask_player_for_location_to_mark
-  #         end
-  #       end
-  #     end
-  #     @input_output.report_location_marked(rules.player_turn, spot)
-  #     rules.game_turn(spot)
-  #     @input_output.display_board(rules.board.board)
-  #   end
-  # end
-
   def end_game
     if rules.player_one_won?
       @input_output.game_over_player_one_won

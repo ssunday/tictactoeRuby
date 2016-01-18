@@ -8,6 +8,12 @@ describe TicTacToeGame do
     @tictactoe_game = TicTacToeGame.new
   end
 
+  context "Nothing has been run" do
+    it "rules is nil" do
+      expect(tictactoe_game.rules).to eq nil
+    end
+  end
+
   xcontext "game is over" do
 
     it "#game_over is true" do
@@ -19,7 +25,9 @@ describe TicTacToeGame do
 
   end
 
-  xit "#play_game goes until game is over" do
+  describe
+
+  xit "#play_game until game is over" do
     tictactoe_game.play_game
     expect(tictactoe_game.rules.game_over?).to eq true
   end

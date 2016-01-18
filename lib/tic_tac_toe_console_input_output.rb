@@ -32,30 +32,30 @@ class TicTacToeConsoleInputOutput
 
   def ask_for_player_one_marker
     puts "What is player one's marker? (I.e like 'X', but can be any single letter excluding integers.)"
-    @player_one_marker = gets.chomp
-    while @player_one_marker =~ /\A\d+\z/ ? true : false || @player_one_marker.length != 1
+    player_one_marker = gets.chomp
+    while player_one_marker =~ /\A\d+\z/ ? true : false || player_one_marker.length != 1
        puts "Sorry, that marker was invalid."
        puts "What is player one's marker? (I.e like 'X', but can be any single letter excluding integers.)"
-       @player_one_marker = gets.chomp
+       player_one_marker = gets.chomp
     end
-    @player_one_marker
+    player_one_marker
   end
 
-  def ask_for_player_two_marker
+  def ask_for_player_two_marker(player_one_marker)
     puts "What is player two's marker? (Make it different from player one's.)"
-    @player_two_marker = gets.chomp
-    while @player_two_marker =~ /\A\d+\z/ ? true : false || @player_two_marker.eql?(@player_one_marker) || @player_two_marker.length != 1
+    player_two_marker = gets.chomp
+    while player_two_marker =~ /\A\d+\z/ ? true : false || player_two_marker.eql?(player_one_marker) || player_two_marker.length != 1
        puts "Sorry, that marker was invalid."
        puts "What is the player two's marker? (Make it different from player one's, a single letter, and not a number.)"
-       @player_two_marker = gets.chomp
+       player_two_marker = gets.chomp
     end
-    @player_two_marker
+    player_two_marker
   end
 
-  def ask_who_is_going_first
+  def ask_who_is_going_first(player_one_marker, player_two_marker)
     puts "Which player is going first? (Type that player's marker to have them go first.)"
     first_player = gets.chomp
-    while !(first_player.eql?(@player_one_marker)) && !(first_player.eql?(@player_two_marker))
+    while !(first_player.eql?(player_one_marker)) && !(first_player.eql?(player_two_marker))
       puts "Sorry, that was not valid. Please try again."
       puts "Which player is going first? (Type that player's marker to have them go first.)"
       first_player = gets.chomp

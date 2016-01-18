@@ -4,7 +4,14 @@ require_relative 'tic_tac_toe_board'
 require_relative 'tic_tac_toe_console_input_output'
 
 class TicTacToeGame
-  attr_reader :game, :ai_player, :rules
+  attr_reader :rules
+
+  def initialize(args = {})
+    @input_output = args.fetch(:input_output, TicTacToeConsoleInputOutput.new)
+    #@player_one = args[:player_one]
+    #@player_two = args[:player_two]
+    @rules = nil
+  end
 
   def run_the_game
     play = true
@@ -18,11 +25,10 @@ class TicTacToeGame
   end
 
   def start_game
-    @input_output = TicTacToeConsoleInputOutput.new
     @input_output.start_up_message
 
     player_one_marker = @input_output.ask_for_player_one_marker
-    player_two_marker = @input_output.ask_for_player_two_marker
+    player_two_marker = @input_output.ask_for_player_two_marker(player_one_marker)
 
     if @input_output.ai_player_one?
       @ai_player_one = TicTacToeAi.new(ai_marker: player_one_marker, other_player_marker: player_two_marker)
@@ -32,9 +38,39 @@ class TicTacToeGame
       @ai_player_two = TicTacToeAi.new(ai_marker: player_two_marker, other_player_marker: player_one_marker)
     end
 
-    first_player = @input_output.ask_who_is_going_first
+    first_player = @input_output.ask_who_is_going_first(player_one_marker, player_two_marker)
     @rules = TicTacToeRules.new(TicTacToeBoard.new, first_player: first_player, player_one: player_one_marker, player_two: player_two_marker)
     @input_output.end_start_up_message
+  end
+
+  def play_game_injected(player_one, player_two, input_output)
+    input_output.display_board(rules.board.board)
+    until rules.game_over?
+      if rules.player_turn.eql?(rules.player_one_marker)
+        @input_output.report_current_turn_one
+        if @ai_player_one != nil
+          spot = @ai_player_one.best_move(current_board, rules.player_turn)
+        else
+          spot = @input_output.ask_player_for_location_to_mark
+          while current_board.location_valid_to_mark?(location: spot, player_one_marker: rules.player_one_marker, player_two_marker: rules.player_two_marker) == false
+            spot = @input_output.ask_player_for_location_to_mark
+          end
+        end
+      else
+        @input_output.report_current_turn_two
+        if @ai_player_two != nil
+          spot = @ai_player_two.best_move(current_board, rules.player_turn)
+        else
+          spot = @input_output.ask_player_for_location_to_mark
+          while current_board.location_valid_to_mark?(location: spot, player_one_marker: rules.player_one_marker, player_two_marker: rules.player_two_marker) == false
+            spot = @input_output.ask_player_for_location_to_mark
+          end
+        end
+      end
+      input_output.report_location_marked(rules.player_turn, spot)
+      rules.game_turn(spot)
+      input_output.display_board(rules.board.board)
+    end
   end
 
   def play_game

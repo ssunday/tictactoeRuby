@@ -63,12 +63,8 @@ class TicTacToeConsoleInputOutput
     first_player
   end
 
-  def report_current_turn_one
-    puts "\nIt is player ONE's turn."
-  end
-
-  def report_current_turn_two
-    puts "\nIt is player TWO's turn."
+  def report_current_turn(player_marker)
+    puts "\nCurrent Player Marker: #{player_marker}"
   end
 
   def report_location_marked(current_player, location)

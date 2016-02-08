@@ -1,7 +1,8 @@
+
 class TicTacToeRules
-  attr_reader :player_turn, :player_one_marker, :player_two_marker, :board
-  attr_writer :board
-  def initialize(initial_board, player_info = {}) #first_player, player_one, player_two)
+  attr_reader :player_turn, :player_one_marker, :player_two_marker
+
+  def initialize(initial_board, player_info = {})
     @player_turn = player_info[:first_player]
     @player_one_marker = player_info[:player_one]
     @player_two_marker = player_info[:player_two]
@@ -13,11 +14,27 @@ class TicTacToeRules
     switch_turn
   end
 
+  def get_board
+    @board
+  end
+
+  def get_array_board
+    @board.board
+  end
+
+  def get_location_value(location)
+    @board.get_board_location(location)
+  end
+
+  def location_valid_to_mark?(location)
+    @board.location_valid_to_mark?(location: location, player_one_marker: @player_one_marker, player_two_marker: @player_two_marker)
+  end
+
   def switch_turn
     if player_turn.eql?(player_two_marker)
-      @player_turn = player_one_marker
+      @player_turn = @player_one_marker
     else
-      @player_turn = player_two_marker
+      @player_turn = @player_two_marker
     end
   end
 

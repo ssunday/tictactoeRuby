@@ -26,7 +26,7 @@ describe TicTacToeGame do
     end
 
     it "rules is initialized with a default board" do
-      expect(tictactoe_game.rules.board.board).to eq ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
+      expect(tictactoe_game.rules.get_array_board).to eq ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
     end
 
     it "#game_over is false" do

@@ -24,7 +24,7 @@ describe TicTacToeRules do
     end
 
     it "makes selected location invalid to mark" do
-      expect(rules.board.location_valid_to_mark?(location: 0, player_one_marker: player_one_marker, player_two_marker: player_two_marker)).to eq false
+      expect(rules.location_valid_to_mark?(0)).to eq false
     end
 
     it "changes player turn" do

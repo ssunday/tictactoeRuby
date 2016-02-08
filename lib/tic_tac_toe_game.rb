@@ -30,22 +30,12 @@ class TicTacToeGame
 
     player_one_marker = @input_output.ask_for_player_one_marker
     player_two_marker = @input_output.ask_for_player_two_marker(player_one_marker)
-
-    if @input_output.ai_player_one?
-      @player_one = TicTacToeAi.new(ai_marker: player_one_marker, other_player_marker: player_two_marker)
-    else
-      @player_one = TicTacToeHumanPlayer.new
-    end
-
-    if @input_output.ai_player_two?
-      @player_two = TicTacToeAi.new(ai_marker: player_two_marker, other_player_marker: player_one_marker)
-    else
-      @player_two = TicTacToeHumanPlayer.new
-    end
-
+    isAI_one = @input_output.ai_player_one?
+    isAI_two = @input_output.ai_player_one?
+    create_player_one(isAI_one, player_one_marker, player_two_marker)
+    create_player_two(isAI_two, player_one_marker, player_two_marker)
     first_player = @input_output.ask_who_is_going_first(player_one_marker, player_two_marker)
     @rules = TicTacToeRules.new(TicTacToeBoard.new, first_player: first_player, player_one: player_one_marker, player_two: player_two_marker)
-
     @input_output.end_start_up_message
   end
 
@@ -53,20 +43,16 @@ class TicTacToeGame
   def play_game(players = {})
     @player_one = players.fetch(:player_one, @player_one)
     @player_two = players.fetch(:player_two, @player_two)
-    @input_output.display_board(rules.board.board)
+    @input_output.display_board(rules.get_array_board)
+
     until rules.game_over?
-      current_board = TicTacToeBoard.new(board: Array.new(rules.board.board))
-      if rules.player_turn.eql?(rules.player_one_marker)
-        @input_output.report_current_turn_one
-        spot = @player_one.move(current_board, rules.player_turn)
-      else
-        @input_output.report_current_turn_two
-        spot = @player_two.move(current_board, rules.player_turn)
-      end
+      @input_output.report_current_turn(rules.player_turn)
+      spot = get_spot
       @input_output.report_location_marked(rules.player_turn, spot)
       rules.game_turn(spot)
-      @input_output.display_board(rules.board.board)
+      @input_output.display_board(rules.get_array_board)
     end
+
   end
 
   def end_game
@@ -78,4 +64,32 @@ class TicTacToeGame
       @input_output.game_over_tied
     end
   end
+
+  private
+
+  def create_player_one(isAI, player_one_marker, player_two_marker)
+    if isAI
+      @player_one = TicTacToeAi.new(ai_marker: player_one_marker, other_player_marker: player_two_marker)
+    else
+      @player_one = TicTacToeHumanPlayer.new
+    end
+  end
+
+  def create_player_two(isAI, player_one_marker, player_two_marker)
+    if isAI
+      @player_two = TicTacToeAi.new(ai_marker: player_two_marker, other_player_marker: player_one_marker)
+    else
+      @player_two = TicTacToeHumanPlayer.new
+    end
+  end
+
+  def get_spot
+    current_board = TicTacToeBoard.new(board: Array.new(rules.get_array_board))
+    if rules.player_turn.eql?(rules.player_one_marker)
+      @player_one.move(current_board, rules.player_turn)
+    else
+      @player_two.move(current_board, rules.player_turn)
+    end
+  end
+
 end

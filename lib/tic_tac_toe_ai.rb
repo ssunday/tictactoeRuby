@@ -7,22 +7,40 @@ class TicTacToeAi
     @other_player_marker = markers[:other_player_marker]
   end
 
-  def move(board, initial_player)
-    best_move = nil
-    best_score = -1e100
-    available_spaces = get_possible_moves(board)
-    current_player = initial_player
-    available_spaces.each do |space|
-      current_board = board.clone
-      current_board.set_board_location(space.to_i, current_player)
-      current_player = switch_turn(current_player)
-      this_score = minmax(current_board, current_player, 0)
-      if this_score > best_score
-        best_score = this_score
-        best_move = space.to_i
-      end
+  def move(board, current_player, depth = 0, best_score={})
+
+    if game_over?(board)
+      return score(board, current_player, depth)
     end
-    best_move
+
+    available_spaces = get_possible_moves(board)
+
+    available_spaces.each do |space|
+      board.set_board_location(space.to_i, current_player)
+      next_player = switch_turn(current_player)
+      best_score[space.to_i] = -1 * move(board, next_player, depth + 1, {})
+      board.set_board_location(space.to_i, space)
+    end
+
+    best_move = best_score.max_by { |space, score| score }[0]
+    highest_score = best_score.max_by { |space, score| score }[1]
+
+    if depth == 0
+      return best_move.to_i
+    elsif depth > 0
+      return highest_score
+    end
+
+  end
+
+  def score(board, current_player, depth)
+    if ai_won?(board, current_player)
+        return 10 - depth
+    elsif other_player_won?(board, current_player)
+        return depth - 10
+    elsif tied?(board)
+        return 0
+    end
   end
 
   private
@@ -61,37 +79,5 @@ class TicTacToeAi
     board.tie?(player_one_marker: ai_marker, player_two_marker: other_player_marker)
   end
 
-  def minmax(board, current_player, depth)
-    if game_over?(board)
-      return game_score(board, current_player, depth)
-    end
-    if current_player != ai_marker
-      multiplier = -1
-    else
-      multiplier = 1
-    end
-    best_score = -1e100
-    available_spaces = get_possible_moves(board)
-    available_spaces.each do |move|
-      board_new = board.clone
-      board_new.set_board_location(move.to_i, current_player)
-      new_player = switch_turn(current_player)
-      this_score = multiplier * minmax(board_new, new_player, depth + 1)
-      if this_score >= best_score
-        best_score = this_score
-      end
-    end
-    best_score
-  end
-
-  def game_score(board, current_player, depth)
-
-    if ai_won?(board, current_player)
-      depth - 10
-    elsif other_player_won?(board, current_player)
-      10 - depth
-    end
-    0
-  end
 
 end

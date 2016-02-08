@@ -34,6 +34,9 @@ class TicTacToeMockIO
   def report_current_turn_two
   end
 
+  def report_current_turn(current_player)
+  end
+
   def report_location_marked(current_player, location)
   end
 

@@ -30,11 +30,14 @@ class TicTacToeGame
 
     player_one_marker = @input_output.ask_for_player_one_marker
     player_two_marker = @input_output.ask_for_player_two_marker(player_one_marker)
+
     isAI_one = @input_output.ai_player_one?
     isAI_two = @input_output.ai_player_one?
     create_player_one(isAI_one, player_one_marker, player_two_marker)
     create_player_two(isAI_two, player_one_marker, player_two_marker)
+
     first_player = @input_output.ask_who_is_going_first(player_one_marker, player_two_marker)
+
     @rules = TicTacToeRules.new(TicTacToeBoard.new, first_player: first_player, player_one: player_one_marker, player_two: player_two_marker)
     @input_output.end_start_up_message
   end
@@ -43,6 +46,7 @@ class TicTacToeGame
   def play_game(players = {})
     @player_one = players.fetch(:player_one, @player_one)
     @player_two = players.fetch(:player_two, @player_two)
+    
     @input_output.display_board(rules.get_array_board)
 
     until rules.game_over?

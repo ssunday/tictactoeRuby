@@ -32,7 +32,7 @@ class TicTacToeGame
     player_two_marker = @input_output.ask_for_player_two_marker(player_one_marker)
 
     isAI_one = @input_output.ai_player_one?
-    isAI_two = @input_output.ai_player_one?
+    isAI_two = @input_output.ai_player_two?
     create_player_one(isAI_one, player_one_marker, player_two_marker)
     create_player_two(isAI_two, player_one_marker, player_two_marker)
 
@@ -46,12 +46,16 @@ class TicTacToeGame
   def play_game(players = {})
     @player_one = players.fetch(:player_one, @player_one)
     @player_two = players.fetch(:player_two, @player_two)
-    
+
     @input_output.display_board(rules.get_array_board)
 
     until rules.game_over?
       @input_output.report_current_turn(rules.player_turn)
       spot = get_spot
+      while invalid_location?(spot)
+        @input_output.invalid_spot
+        spot = get_spot
+      end
       @input_output.report_location_marked(rules.player_turn, spot)
       rules.game_turn(spot)
       @input_output.display_board(rules.get_array_board)
@@ -94,6 +98,11 @@ class TicTacToeGame
     else
       @player_two.move(current_board, rules.player_turn)
     end
+  end
+
+  def invalid_location?(spot)
+    rules.get_array_board[spot].eql?(rules.player_one_marker) || rules.get_array_board[spot].eql?(rules.player_two_marker) \
+      || spot > 8 || spot < 0
   end
 
 end

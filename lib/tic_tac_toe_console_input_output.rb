@@ -80,6 +80,10 @@ class TicTacToeConsoleInputOutput
     "   |   #{board[6]}   |   #{board[7]}   |   #{board[8]}   |   \n\n"
   end
 
+  def invalid_spot
+    puts "Sorry that spot is invalid. Please choose another spot."
+  end
+
   def game_over_player_one_won
     puts "Player one has WON!"
     puts "GAME IS OVER. Thanks for playing!"
